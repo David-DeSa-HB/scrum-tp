@@ -44,43 +44,31 @@ class formHandler {
     getFieldFromUser(domElement) {
         const user = findUser(getValue(this.userNameElement));
         return user.querySelector(domElement);
-
     }
-    setValueToDOM(domElement, value )
-    {
+    setValueToDOM(domElement, value) {
         domElement.value = value;
     }
     handdleSubmitLogin(e) {
         e.preventDefault(); // Prevent default form submission behavior
-       if(connectionIsCorrect)
-        {
+        if (connectionIsCorrect) {
             redirect();
-        }
-        else
-        {
+        } else {
             error();
         }
-
-
     }
     handdleSubmitInscription(e) {
         e.preventDefault(); // Prevent default form submission behavior
-       if(connectionIsCorrect)
-        {
+        if (connectionIsCorrect) {
             redirect();
-        }
-        else
-        {
+        } else {
             error();
         }
-        
-
     }
 }
 
 window.addEventListener('load', () => {
-    const formLogin = new formHandler('formLogin');
-    const formInscription = new formHandler('formInscription');
+    // const formLogin = new formHandler('formLogin');
+    // const formInscription = new formHandler('formInscription');
 });
 
 async function loadXMLDoc(filename) {
@@ -98,7 +86,12 @@ async function loadXMLDoc(filename) {
 function findUser(xml, username) {
     const allUsers = xml.querySelectorAll('Utilisateur');
     allUsers.forEach((user) => {
-        usernameIsGood = user.querySelector('UserName') === username;
+        usernameIsGood =
+            user.querySelector('UserName').textcontent === username;
+        console.log(user.querySelector('UserName').textContent);
+        console.log(username);
+        console.log(usernameIsGood);
+
         if (usernameIsGood) {
             return user;
         }
@@ -108,7 +101,9 @@ function findUser(xml, username) {
 
 function connectionIsCorrect(xml, username, password) {
     const user = findUser(xml, username);
-    if (user?.querySelector('Password') === password) {
+    console.log(user);
+    console.log(user?.querySelector('Password').textContent);
+    if (user?.querySelector('Password').textContent === password) {
         return true;
     }
     return false;
@@ -128,8 +123,8 @@ function redirect(href) {
 }
 
 window.addEventListener('load', () => {
-    username = 'username';
-    password = 'password';
+    username = 'PasBenjamin';
+    password = 'mdp123';
 
     loadXMLDoc('./Utilisateurs.xml')
         .then((xml) => connectUser(xml, username, password))
