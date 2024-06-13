@@ -6,11 +6,6 @@ class formHandler {
         }
         assignElement(formId);
         assignEvent(formId);
-
-        getActionForm();
-        {
-            this.action = this.formElement.querySelector('.action');
-        }
         assignElement(formId);
         {
             switch (formId) {
@@ -58,7 +53,7 @@ class formHandler {
         e.preventDefault(); // Prevent default form submission behavior
        if(connectionIsCorrect)
         {
-            redirect();
+            redirect('inscription.html');
         }
         else
         {
