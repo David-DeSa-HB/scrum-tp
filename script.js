@@ -34,19 +34,47 @@ class formHandler {
         }
     }
     getValue(element) {
-        return this.element.value;
+        return element.value;
     }
-    async setValue(xml, field, value) {
+    async setValue(field, value) {
         domXML = await loadXMLDoc('Utilisateur.xml');
-        setValueToDOM(getFieldFromDom(domXML, field), value);
+        setValueToDOM(getFieldFromUser(domXML, field), value);
     }
 
-    getFieldFromDom(domXML, domElement) {
+    getFieldFromUser(domElement) {
         const user = findUser(getValue(this.userNameElement));
-    }
+        return user.querySelector(domElement);
 
-    handdleSubmit(e) {
+    }
+    setValueToDOM(domElement, value )
+    {
+        domElement.value = value;
+    }
+    handdleSubmitLogin(e) {
         e.preventDefault(); // Prevent default form submission behavior
+       if(connectionIsCorrect)
+        {
+            redirect();
+        }
+        else
+        {
+            error();
+        }
+
+
+    }
+    handdleSubmitInscription(e) {
+        e.preventDefault(); // Prevent default form submission behavior
+       if(connectionIsCorrect)
+        {
+            redirect();
+        }
+        else
+        {
+            error();
+        }
+        
+
     }
 }
 
