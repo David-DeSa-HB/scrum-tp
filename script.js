@@ -7,6 +7,10 @@ class formHandler {
         assignElement(formId);
         assignEvent(formId);
 
+        getActionForm();
+        {
+            this.action = this.formElement.querySelector('.action');
+        }
         assignElement(formId);
         {
             switch (formId) {
@@ -108,7 +112,7 @@ function findUser(xml, username) {
 
 function connectionIsCorrect(xml, username, password) {
     const user = findUser(xml, username);
-    if (user && user.querySelector('Password') === password) {
+    if (user?.querySelector('Password') === password) {
         return true;
     }
     return false;
@@ -121,6 +125,10 @@ function connectUser(xml, username, password) {
     }
     //error
     console.log('error');
+}
+
+function redirect(href) {
+    window.location.replace(href);
 }
 
 window.addEventListener('load', () => {
