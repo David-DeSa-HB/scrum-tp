@@ -1,23 +1,7 @@
+function handdleSubmit() {}
 
+function randomPassword() {}
 
+function sendMail() {}
 
-function handdleSubmit()
-{
-
-}
-
-function randomPassword()
-{
-
-}
-
-function sendMail()
-{
-
-}
-
-
-window.addEventListener("load", () =>
-{
-    
-})
+window.addEventListener('load', () => {});
