@@ -7,10 +7,6 @@ class formHandler {
         assignElement(formId);
         assignEvent(formId);
 
-        getActionForm();
-        {
-            this.action = this.formElement.querySelector('.action');
-        }
         assignElement(formId);
         {
             switch (formId) {
