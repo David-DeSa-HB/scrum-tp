@@ -29,18 +29,16 @@ class formHandler{
             }
 
         }
-
-        getValue(element){
+    }
+        getValue(element)
+        {
             return this.element.value;
 
         }
-        setValue(xml, field, value)
+        async setValue(xml, field, value)
         {
             domXML = await loadXMLDoc('Utilisateur.xml');
             setValueToDOM(getFieldFromDom(domXML,field), value)
-            {
-
-            }
         }
 
         getFieldFromDom(domXML, domElement)
@@ -48,16 +46,16 @@ class formHandler{
             const user = findUser(getValue(this.userNameElement));
 
         }
-    }
-}
+    
 
-function handdleSubmit(e)
+
+handdleSubmit(e)
 {
     e.preventDefault(); // Prevent default form submission behavior
     
 }
 
-
+}
 
 
 
