@@ -46,12 +46,7 @@ class formHandler {
     }
 
     assignEvent(element) {
-        formId === 'formLogin'
-            ? element.addEventListener('click', handdleSubmitLogin(e))
-            : element.addEventListener(
-                  'click',
-                  this.handdleSubmitInscription(e)
-              );
+        this.formId === 'formLogin' ? element.addEventListener('click', (e) => {handdleSubmitLogin(e)}) : element.addEventListener('click', () => {this.handdleSubmitInscription(e)});
     }
 
     handdleSubmitLogin(e) {
@@ -92,6 +87,7 @@ function redirect(url) {
 }
 
 function findUser(xml, username) {
+    console.log("test 2: "+username);
     const allUsers = xml.querySelectorAll('Utilisateur');
     for (let index = 0; index < allUsers.length; index++) {
         const user = allUsers[index];
@@ -201,12 +197,15 @@ function getIdFromForm() {
 }
 
 window.addEventListener('load', () => {
+    generateHeader();
     const submitLogin = document.querySelector('#submitLogin');
     submitLogin.addEventListener('click', (event) => {
         console.log('click');
 
         event.preventDefault();
         const userInput = getInputConnection();
+
+    
         loadXMLDoc('./data/Utilisateurs.xml')
             .then((xml) =>
                 connectUser(xml, userInput.username, userInput.password)
@@ -230,8 +229,7 @@ window.addEventListener('load', () => {
             });
     }
     const formLogin = new formHandler(getIdFromForm());
-    const buttonDeco = window.getElementById('btnDeco');
-});
+    const buttonDeco = document.getElementById('btnDeco');
 
 buttonDeco.addEventListener('click', () => {
     try {
@@ -255,3 +253,63 @@ buttonDeco.addEventListener('click', () => {
 //chercher si l'tilisateur exist
 //on la trouvé (si pas trouvé erreur, sino redirigé)
 //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
+
+function getConnectedUser(){
+    const text = fetch("data/currentUser.txt").then((res) => res.text()).then((text) => {
+        console.log("text : "+text);
+        return text;
+    })
+    return text;
+}
+
+function findNom(userXML) {
+    const nom = userXML.querySelector("Nom").textContent;
+    return nom;
+}
+
+function findPrenom(userXML) {
+    const prenom = userXML.querySelector("Prenom").textContent;
+    return prenom;
+}
+
+function generateHeader() {
+    const body = document.querySelector("body");
+
+    const header = document.createElement("header");
+    
+
+    const divNom = document.createElement("div");
+    header.appendChild(divNom);
+
+    const labelNom = document.createElement("label");
+    labelNom.id = "labelNom";
+    divNom.appendChild(labelNom);
+
+    const divPrenom = document.createElement("div");
+    header.appendChild(divPrenom);
+
+    const labelPrenom = document.createElement("label");
+    labelPrenom.id = "labelPrenom";
+    
+    divPrenom.appendChild(labelPrenom);
+
+    loadXMLDoc("./Utilisateurs.xml").then((xml) => {
+        getConnectedUser().then((username) => {
+            const labelPrenom = document.querySelector("#labelPrenom");
+            const labelNom = document.querySelector("#labelNom");
+            const userXML = findUser(xml,username);
+            labelPrenom.innerHTML = findPrenom(userXML);
+            labelNom.innerHTML = findNom(userXML);
+        });
+    });
+
+    const divDeconnexion = document.createElement("div");
+    header.appendChild(divDeconnexion);
+
+    const boutonDeconnexion = document.createElement("button");
+    boutonDeconnexion.id = "btnDeco";
+    boutonDeconnexion.innerHTML = "Déconnexion";    
+    divDeconnexion.appendChild(boutonDeconnexion);
+
+    body.innerHTML = header.outerHTML + body.innerHTML;
+}
