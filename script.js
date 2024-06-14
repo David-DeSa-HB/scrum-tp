@@ -112,9 +112,6 @@ function connectionIsCorrect(xml, username, password) {
 }
 
 function connectUser(xml, username, password) {
-    console.log('username : ', username);
-    console.log('password : ', password);
-
     if (connectionIsCorrect(xml, username, password)) {
         //redirect
         console.log('redirect');
@@ -122,6 +119,7 @@ function connectUser(xml, username, password) {
     }
     //error
     console.log('error');
+    location.window.replace(location.window.path);
     return;
 }
 
@@ -132,28 +130,33 @@ function redirect(href) {
 function getInputConnection(params) {
     const formLogin = document.querySelector('#formLogin');
     if (formLogin) {
-        console.log('formLogin : ', formLogin);
-        username = formLogin.querySelector("input[name='Username']");
-        password = formLogin.querySelector("input[name='Password']");
-    } else {
-        username = 'PasBenjamin';
-        password = 'mdp123!';
-
-        username = 'JeanMichel';
-        // password = 'passw0rd!';
+        username = formLogin.querySelector("input[name='Username']").value;
+        password = formLogin.querySelector("input[name='Password']").value;
     }
+    // else {
+    //     username = 'PasBenjamin';
+    //     password = 'mdp123!';
+
+    //     username = 'JeanMichel';
+    //     // password = 'passw0rd!';
+    // }
 
     return { username: username, password: password };
 }
 
 window.addEventListener('load', () => {
-    const userInput = getInputConnection();
-
-    loadXMLDoc('./Utilisateurs.xml')
-        .then((xml) => connectUser(xml, userInput.username, userInput.password))
-        .catch(function (error) {
-            console.error(error);
-        });
+    const submitLogin = document.querySelector('#submitLogin');
+    submitLogin.addEventListener('click', (event) => {
+        event.preventDefault();
+        const userInput = getInputConnection();
+        loadXMLDoc('./Utilisateurs.xml')
+            .then((xml) =>
+                connectUser(xml, userInput.username, userInput.password)
+            )
+            .catch(function (error) {
+                console.error(error);
+            });
+    });
 });
 
 function generictruc(xmlPRosmise, fonctin) {
