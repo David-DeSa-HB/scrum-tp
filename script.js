@@ -51,12 +51,7 @@ class formHandler {
     }
 
     assignEvent(element) {
-        formId === 'formLogin'
-            ? element.addEventListener('click', handdleSubmitLogin(e))
-            : element.addEventListener(
-                  'click',
-                  this.handdleSubmitInscription(e)
-              );
+        this.formId === 'formLogin' ? element.addEventListener('click', (e) => {handdleSubmitLogin(e)}) : element.addEventListener('click', () => {this.handdleSubmitInscription(e)});
     }
 
     handdleSubmitLogin(e) {
@@ -227,32 +222,32 @@ window.addEventListener('load', () => {
     const formLogin = new formHandler(getIdFromForm());
     const buttonDeco = window.getElementById('btnDeco');
 
+    buttonDeco.addEventListener('click', () =>{
 
+        try {
+            let file;
+            // Create an instance of the FileSystemObject
+            file = new ActiveXObject("Scripting.FileSystemObject");
+          
+            let f = file.GetFile("data/currentUser.txt");
+            f.Delete();
+        
+            file = new File("", "data/currentUser.txt", {
+                type: "text/plain",
+            });
+        
+        
+            redirect("index.html");
+        }
+        catch{
+            alert("Problème de déconnexion");
+        }
+    
+    });
     
 });
 
-buttonDeco.addEventListener('click', () =>{
 
-    try {
-        var file;
-        // Create an instance of the FileSystemObject
-        file = new ActiveXObject("Scripting.FileSystemObject");
-      
-        var f = file.GetFile("data/currentUser.txt");
-        f.Delete();
-    
-        file = new File("", "data/currentUser.txt", {
-            type: "text/plain",
-        });
-    
-    
-        redirect("index.html");
-    }
-    catch{
-        alert("Problème de déconnexion");
-    }
-
-});
 
 //chercher si l'tilisateur exist
 //on la trouvé (si pas trouvé erreur, sino redirigé)
