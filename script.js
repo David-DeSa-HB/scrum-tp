@@ -127,11 +127,21 @@ function connectUser(xml, username, password) {
     if (connectionIsCorrect(xml, username, password)) {
         //redirect
         console.log('redirect');
+
+        var fs = require('fs');
+        // fs.writeFile('./data/currentuser.txt', username, function (err, data) {
+        //     if (err) {
+        //         return console.error(err);
+        //     }
+        //     console.log('Data read : ' + data.toString());
+        // });
+        redirect('index.html');
         return;
     }
     //error
     console.log('error');
-    location.window.replace(location.window.path);
+    window.location.reload();
+    // redirect(window.location.href);
     return;
 }
 
@@ -196,7 +206,7 @@ window.addEventListener('load', () => {
     submitLogin.addEventListener('click', (event) => {
         event.preventDefault();
         const userInput = getInputConnection();
-        loadXMLDoc('./Utilisateurs.xml')
+        loadXMLDoc('./data/Utilisateurs.xml')
             .then((xml) =>
                 connectUser(xml, userInput.username, userInput.password)
             )
@@ -204,13 +214,12 @@ window.addEventListener('load', () => {
                 console.error(error);
             });
     });
-    const userInput = getInputConnection();
 
-    loadXMLDoc('./data/Utilisateurs.xml')
-        .then((xml) => connectUser(xml, username, password))
-        .catch(function (error) {
-            console.error(error);
-        });
+    // loadXMLDoc('./data/Utilisateurs.xml')
+    //     .then((xml) => connectUser(xml, username, password))
+    //     .catch(function (error) {
+    //         console.error(error);
+    //     });
 
     if (document.querySelector('#partenaires') != null) {
         loadXMLDoc('./data/Partenaires.xml')
