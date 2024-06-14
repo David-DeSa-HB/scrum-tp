@@ -85,24 +85,35 @@ async function loadXMLDoc(filename) {
 
 function findUser(xml, username) {
     const allUsers = xml.querySelectorAll('Utilisateur');
-    allUsers.forEach((user) => {
-        usernameIsGood =
-            user.querySelector('UserName').textcontent === username;
-        console.log(user.querySelector('UserName').textContent);
-        console.log(username);
-        console.log(usernameIsGood);
+    for (let index = 0; index < allUsers.length; index++) {
+        const user = allUsers[index];
+        usernameInXML = user.querySelector('UserName').textContent;
+        usernameIsGood = usernameInXML === username;
 
         if (usernameIsGood) {
             return user;
         }
-    });
+    }
+    // allUsers.forEach((user) => {
+    //     usernameInXML = user.querySelector('UserName').textContent;
+    //     usernameIsGood = usernameInXML === username;
+    //     console.log(usernameInXML);
+    //     console.log(username);
+    //     console.log(usernameIsGood);
+
+    //     if (usernameIsGood) {
+    //         console.log('redirect');
+    //         console.log('user : ', user);
+
+    //         return user;
+    //     }
+    // });
+
     return null;
 }
 
 function connectionIsCorrect(xml, username, password) {
     const user = findUser(xml, username);
-    console.log(user);
-    console.log(user?.querySelector('Password').textContent);
     if (user?.querySelector('Password').textContent === password) {
         return true;
     }
@@ -113,9 +124,11 @@ function connectUser(xml, username, password) {
     if (connectionIsCorrect(xml, username, password)) {
         //redirect
         console.log('redirect');
+        return;
     }
     //error
     console.log('error');
+    return;
 }
 
 function redirect(href) {
@@ -124,7 +137,7 @@ function redirect(href) {
 
 window.addEventListener('load', () => {
     username = 'PasBenjamin';
-    password = 'mdp123';
+    password = 'mdp123!';
 
     loadXMLDoc('./Utilisateurs.xml')
         .then((xml) => connectUser(xml, username, password))
