@@ -229,7 +229,7 @@ window.addEventListener('load', () => {
             });
     }
     const formLogin = new formHandler(getIdFromForm());
-    const buttonDeco = window.getElementById('btnDeco');
+    const buttonDeco = document.getElementById('btnDeco');
 
     buttonDeco.addEventListener('click', () =>{
 
