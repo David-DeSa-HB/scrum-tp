@@ -84,6 +84,7 @@ async function loadXMLDoc(filename) {
 }
 
 function findUser(xml, username) {
+    console.log("test 2: "+username);
     const allUsers = xml.querySelectorAll('Utilisateur');
     for (let index = 0; index < allUsers.length; index++) {
         const user = allUsers[index];
@@ -165,8 +166,62 @@ function generictruc(xmlPRosmise, fonctin) {
 //on la trouvé (si pas trouvé erreur, sino redirigé)
 //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
 
+function getConnectedUser(){
+    const text = fetch("data/currentUser.txt").then((res) => res.text()).then((text) => {
+        console.log("text : "+text);
+        return text;
+    })
+    return text;
+}
+
+function findNom(userXML) {
+    const nom = userXML.querySelector("Nom").textContent;
+    return nom;
+}
+
+function findPrenom(userXML) {
+    const prenom = userXML.querySelector("Prenom").textContent;
+    return prenom;
+}
 
 function generateHeader() {
-    const body = document.getElementsByTagName("body")[0];
-    console.log(body);
+    const body = document.querySelector("body");
+
+    const header = document.createElement("header");
+    
+
+    const divNom = document.createElement("div");
+    header.appendChild(divNom);
+
+    const labelNom = document.createElement("label");
+    labelNom.id = "labelNom";
+    divNom.appendChild(labelNom);
+
+    const divPrenom = document.createElement("div");
+    header.appendChild(divPrenom);
+
+    const labelPrenom = document.createElement("label");
+    labelPrenom.id = "labelPrenom";
+    
+    divPrenom.appendChild(labelPrenom);
+
+    loadXMLDoc("./Utilisateurs.xml").then((xml) => {
+        getConnectedUser().then((username) => {
+            const labelPrenom = document.querySelector("#labelPrenom");
+            const labelNom = document.querySelector("#labelNom");
+            const userXML = findUser(xml,username);
+            labelPrenom.innerHTML = findPrenom(userXML);
+            labelNom.innerHTML = findNom(userXML);
+        });
+    });
+
+    const divDeconnexion = document.createElement("div");
+    header.appendChild(divDeconnexion);
+
+    const boutonDeconnexion = document.createElement("button");
+    boutonDeconnexion.id = "btnDeco";
+    boutonDeconnexion.innerHTML = "Déconnexion";    
+    divDeconnexion.appendChild(boutonDeconnexion);
+
+    body.innerHTML = header.outerHTML + body.innerHTML;
 }
