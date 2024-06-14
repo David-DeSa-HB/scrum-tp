@@ -4,33 +4,30 @@ class formHandler {
         if (this.formElement == null) {
             throw error('pas de formulaire');
         }
-        assignElement(formId);
-        assignEvent(formId);
-
-        assignElement(formId);
-        {
-            switch (formId) {
-                case 'formLogin':
-                    this.userNameElement =
-                        this.formElement.querySelector('UserName');
-                    this.passwordElement =
-                        this.formElement.querySelector('PassWord');
-                    this.submitElement = this.formElement.querySelector('');
-                case 'formInscription':
-                    this.emailElement = this.formElement.querySelector('email');
-                    this.lastNameElement =
-                        this.formElement.querySelector('Nom');
-                    this.nameElement = this.formElement.querySelector('Prenom');
-                    this.secretQuestionElement =
-                        this.formElement.querySelector('Question_Secrete');
-                    this.secretQuestionAnswerElement =
-                        this.formElement.querySelector(
-                            'Reponse_a_la_question_Secrete'
-                        );
-                    break;
-                default:
-                    throw error('pas de formulaire');
-            }
+        this.assignElement(formId);
+        this.assignEvent(formId);
+    }
+    assignElement(formId) {
+        switch (formId) {
+            case 'formLogin':
+                this.userNameElement =
+                    this.formElement.getElementById('UserName');
+                this.passwordElement =
+                    this.formElement.getElementById('PassWord');
+                this.submitElement = this.formElement.getElementById('');
+            case 'formInscription':
+                this.emailElement = this.formElement.getElementById('email');
+                this.lastNameElement = this.formElement.getElementById('Nom');
+                this.nameElement = this.formElement.getElementById('Prenom');
+                this.secretQuestionElement =
+                    this.formElement.getElementById('Question_Secrete');
+                this.secretQuestionAnswerElement =
+                    this.formElement.getElementById(
+                        'Reponse_a_la_question_Secrete'
+                    );
+                break;
+            default:
+                throw error('pas de formulaire');
         }
     }
     getValue(element) {
@@ -48,28 +45,33 @@ class formHandler {
     setValueToDOM(domElement, value) {
         domElement.value = value;
     }
+
+    assignEvent(element) {
+        formId === 'formLogin'
+            ? element.addEventListener('click', handdleSubmitLogin(e))
+            : element.addEventListener(
+                  'click',
+                  this.handdleSubmitInscription(e)
+              );
+    }
+
     handdleSubmitLogin(e) {
         e.preventDefault(); // Prevent default form submission behavior
         if (connectionIsCorrect) {
-            redirect();
+            redirect('inscription.html');
         } else {
-            error();
+            error(errors);
         }
     }
     handdleSubmitInscription(e) {
         e.preventDefault(); // Prevent default form submission behavior
         if (connectionIsCorrect) {
-            redirect();
+            redirect('connection.html');
         } else {
-            error();
+            error(errors);
         }
     }
 }
-
-window.addEventListener('load', () => {
-    // const formLogin = new formHandler('formLogin');
-    // const formInscription = new formHandler('formInscription');
-});
 
 async function loadXMLDoc(filename) {
     try {
@@ -81,6 +83,10 @@ async function loadXMLDoc(filename) {
     } catch (error) {
         console.error(error);
     }
+}
+
+function redirect(url) {
+    window.location.replace(url);
 }
 
 function findUser(xml, username) {
@@ -157,11 +163,16 @@ window.addEventListener('load', () => {
                 console.error(error);
             });
     });
-});
+    const userInput = getInputConnection();
 
-function generictruc(xmlPRosmise, fonctin) {
-    xmlPRosmise.then(fonction);
-}
+    loadXMLDoc('./Utilisateurs.xml')
+        .then((xml) => connectUser(xml, userInput.username, userInput.password))
+        .catch(function (error) {
+            console.error(error);
+        });
+    const formLogin = new formHandler('formLogin');
+    const formInscription = new formHandler('formInscription');
+});
 //chercher si l'tilisateur exist
 //on la trouvé (si pas trouvé erreur, sino redirigé)
 //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
