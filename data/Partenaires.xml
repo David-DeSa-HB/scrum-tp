@@ -2,17 +2,19 @@
 
 <!DOCTYPE Partenaires
 [
-<!ELEMENT Partenaires (Partenaire*)>
-<!ELEMENT Partenaire(Nom, Description, Logo)>
+    <!ELEMENT Partenaires (Partenaire*)>
+    <!ELEMENT Partenaire (Nom, Preview, Description, Logo)>
 
-<!ELEMENT Nom(#PCDATA)>
-<!ELEMENT Description(#PCDATA)>
-<!ELEMENT Logo(#PCDATA)>
+        <!ELEMENT Nom (#PCDATA)>
+        <!ELEMENT Preview (#PCDATA)>
+        <!ELEMENT Description (#PCDATA)>
+        <!ELEMENT Logo (#PCDATA)>
 ]>
 
 <Partenaires>
     <Partenaire>
         <Nom>OCAR</Nom>
+        <Preview>OCAR est une compagnie d’assurance qui est présente sur tout le territoire.</Preview>
         <Description>OCAR est une compagnie d’assurance qui est présente sur tout le territoire.
         Nous proposons est une solution clé en main et une mise en place entièrement
         gratuite allant d’un simple lien tracké à une intégration totale dans votre
@@ -27,6 +29,7 @@
     </Partenaire>
     <Partenaire>
         <Nom>ASSURISK</Nom>
+        <Preview>Être bien couvert, votre objectif et notre mission.</Preview>
         <Description>Être bien couvert, votre objectif et notre mission.
 ASSURISK est le leader français de l’assurance en ligne.
 Nous vous proposons l’offre et les options qui vous correspondent le mieux,
@@ -43,6 +46,7 @@ du 1er groupe mondial d’assurance.</Description>
     </Partenaire>
     <Partenaire>
         <Nom>LES + MUTUALISTES</Nom>
+        <Preview>LES + MUTUALISTES finance la solidarité nationale.</Preview>
         <Description>LES + MUTUALISTES finance la solidarité nationale.
 Nous appliquons le principe édifié par la Sécurité sociale française en 1945 :
 permettre à chacun de bénéficier d’une protection sociale.
@@ -57,6 +61,7 @@ Notre mission est double :
     </Partenaire>
     <Partenaire>
         <Nom>ALLIA</Nom>
+        <Preview>ALLIA accompagne les entreprises dans leurs démarches en terme d'assurance.</Preview>
         <Description>ALLIA accompagne les entreprises dans leurs démarches en terme d'assurance.
 Son président est élu pour 3 ans par ses pairs, chefs d'entreprises et présidents de tous
 les ALLIA de France.</Description>

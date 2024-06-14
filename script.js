@@ -131,6 +131,36 @@ function connectUser(xml, username, password) {
     return;
 }
 
+function loadPartenaires(xml) {
+    const list = document.querySelector('#partenaires');
+
+    const partenaires = xml.querySelectorAll('Partenaire');
+
+    partenaires.forEach((partenaire) => {
+        var element = document.createElement('article');
+
+        var title = document.createElement('h3');
+        var description = document.createElement('p');
+        var logo = document.createElement('img');
+        var button = document.createElement('button');
+
+        title.textContent = partenaire.querySelector('Nom').textContent;
+        description.textContent =
+            partenaire.querySelector('Preview').textContent;
+
+        logo.src = partenaire.querySelector('Logo').textContent;
+
+        button.textContent = 'Afficher la suite';
+
+        element.append(title);
+        element.append(logo);
+        element.append(description);
+        element.append(button);
+
+        list.append(element);
+    });
+}
+
 function redirect(href) {
     window.location.replace(href);
 }
@@ -139,11 +169,19 @@ window.addEventListener('load', () => {
     username = 'PasBenjamin';
     password = 'mdp123!';
 
-    loadXMLDoc('./Utilisateurs.xml')
+    loadXMLDoc('./data/Utilisateurs.xml')
         .then((xml) => connectUser(xml, username, password))
         .catch(function (error) {
             console.error(error);
         });
+
+    if (document.querySelector('#partenaires') != null) {
+        loadXMLDoc('./data/Partenaires.xml')
+            .then((xml) => loadPartenaires(xml))
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
 });
 
 function generictruc(xmlPRosmise, fonctin) {
