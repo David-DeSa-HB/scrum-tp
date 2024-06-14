@@ -219,7 +219,34 @@ window.addEventListener('load', () => {
     }
     const formLogin = new formHandler('formLogin');
     const formInscription = new formHandler('formInscription');
+    const buttonDeco = window.getElementById('btnDeco');
+
+    
 });
+
+buttonDeco.addEventListener('click', () =>{
+
+    try {
+        var file;
+        // Create an instance of the FileSystemObject
+        file = new ActiveXObject("Scripting.FileSystemObject");
+      
+        var f = file.GetFile("data/currentUser.txt");
+        f.Delete();
+    
+        file = new File("", "data/currentUser.txt", {
+            type: "text/plain",
+        });
+    
+    
+        redirect("index.html");
+    }
+    catch{
+        alert("Problème de déconnexion");
+    }
+
+});
+
 //chercher si l'tilisateur exist
 //on la trouvé (si pas trouvé erreur, sino redirigé)
 //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
