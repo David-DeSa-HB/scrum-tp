@@ -1,39 +1,34 @@
+import * as fs from 'fs';
 class formHandler {
     constructor(formId) {
         console.log(formId);
         this.formElement = document.getElementById(formId);
         if (this.formElement == null) {
-            throw new Error ('pas de formulaire');
+            throw new Error('pas de formulaire');
         }
         this.assignElement(formId);
         this.assignEvent(this.formElement);
-        
     }
-    assignElement(formId)
-        {
-            switch (formId) {
-                case 'formLogin':
-                    this.userNameElement =
-                        document.getElementById('UserName');
-                    this.passwordElement =
-                    document.getElementById('PassWord');
-                    this.submitElement = document.getElementById('');
-                case 'formInscription':
-                    this.emailElement = document.getElementById('email');
-                    this.lastNameElement =
-                    document.getElementById('Nom');
-                    this.nameElement = document.getElementById('Prenom');
-                    this.secretQuestionElement =
+    assignElement(formId) {
+        switch (formId) {
+            case 'formLogin':
+                this.userNameElement = document.getElementById('UserName');
+                this.passwordElement = document.getElementById('PassWord');
+                this.submitElement = document.getElementById('');
+            case 'formInscription':
+                this.emailElement = document.getElementById('email');
+                this.lastNameElement = document.getElementById('Nom');
+                this.nameElement = document.getElementById('Prenom');
+                this.secretQuestionElement =
                     document.getElementById('Question_Secrete');
-                    this.secretQuestionAnswerElement =
-                    document.getElementById(
-                            'Reponse_a_la_question_Secrete'
-                        );
-                    break;
-                default:
-                    throw error('pas de formulaire');
-            }
+                this.secretQuestionAnswerElement = document.getElementById(
+                    'Reponse_a_la_question_Secrete'
+                );
+                break;
+            default:
+                throw error('pas de formulaire');
         }
+    }
     getValue(element) {
         return element.value;
     }
@@ -61,25 +56,21 @@ class formHandler {
 
     handdleSubmitLogin(e) {
         e.preventDefault(); // Prevent default form submission behavior
-       if(connectionIsCorrect())
-        {
+        if (connectionIsCorrect()) {
             redirect('inscription.html');
-        }
-        else
-        {
+        } else {
             error();
         }
     }
     handdleSubmitInscription(e) {
         e.preventDefault(); // Prevent default form submission behavior
         if (connectionIsCorrect()) {
-            redirect("connexion.html");
+            redirect('connexion.html');
         } else {
             error(errors);
         }
     }
-    error()
-    {
+    error() {
         alert('il y a un problème');
     }
 }
@@ -133,19 +124,24 @@ function connectUser(xml, username, password) {
         //redirect
         console.log('redirect');
 
-        var fs = require('fs');
-        // fs.writeFile('./data/currentuser.txt', username, function (err, data) {
-        //     if (err) {
-        //         return console.error(err);
+        const userJSON = JSON.stringify(username);
+        // fs.writeFile('data.json', userJSON, (error) => {
+        //     if (error) {
+        //         console.error(error);
+
+        //         throw error;
         //     }
-        //     console.log('Data read : ' + data.toString());
+
+        //     console.log('data.json written correctly');
         // });
-        redirect('index.html');
+        console.log('userJSON : ', userJSON);
+
+        // redirect('index.html');
         return;
     }
     //error
     console.log('error');
-    window.location.reload();
+    // window.location.reload();
     // redirect(window.location.href);
     return;
 }
@@ -200,15 +196,15 @@ function getInputConnection(params) {
 
     return { username: username, password: password };
 }
-function getIdFromForm()
-{
-    return document.getElementsByTagName("form")[0].id; 
+function getIdFromForm() {
+    return document.getElementsByTagName('form')[0].id;
 }
-
 
 window.addEventListener('load', () => {
     const submitLogin = document.querySelector('#submitLogin');
     submitLogin.addEventListener('click', (event) => {
+        console.log('click');
+
         event.preventDefault();
         const userInput = getInputConnection();
         loadXMLDoc('./data/Utilisateurs.xml')
@@ -235,32 +231,25 @@ window.addEventListener('load', () => {
     }
     const formLogin = new formHandler(getIdFromForm());
     const buttonDeco = window.getElementById('btnDeco');
-
-
-    
 });
 
-buttonDeco.addEventListener('click', () =>{
-
+buttonDeco.addEventListener('click', () => {
     try {
         var file;
         // Create an instance of the FileSystemObject
-        file = new ActiveXObject("Scripting.FileSystemObject");
-      
-        var f = file.GetFile("data/currentUser.txt");
-        f.Delete();
-    
-        file = new File("", "data/currentUser.txt", {
-            type: "text/plain",
-        });
-    
-    
-        redirect("index.html");
-    }
-    catch{
-        alert("Problème de déconnexion");
-    }
+        file = new ActiveXObject('Scripting.FileSystemObject');
 
+        var f = file.GetFile('data/currentUser.txt');
+        f.Delete();
+
+        file = new File('', 'data/currentUser.txt', {
+            type: 'text/plain',
+        });
+
+        redirect('index.html');
+    } catch {
+        alert('Problème de déconnexion');
+    }
 });
 
 //chercher si l'tilisateur exist
