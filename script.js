@@ -1,30 +1,32 @@
 class formHandler {
     constructor(formId) {
+        console.log(formId);
         this.formElement = document.getElementById(formId);
         if (this.formElement == null) {
-            throw error('pas de formulaire');
+            throw new Error ('pas de formulaire');
         }
-        assignElement(formId);
-        assignEvent(formId);
-
-        assignElement(formId);
+        this.assignElement(formId);
+        this.assignEvent(this.formElement);
+        
+    }
+    assignElement(formId)
         {
             switch (formId) {
                 case 'formLogin':
                     this.userNameElement =
-                        this.formElement.querySelector('UserName');
+                        document.getElementById('UserName');
                     this.passwordElement =
-                        this.formElement.querySelector('PassWord');
-                    this.submitElement = this.formElement.querySelector('');
+                    document.getElementById('PassWord');
+                    this.submitElement = document.getElementById('');
                 case 'formInscription':
-                    this.emailElement = this.formElement.querySelector('email');
+                    this.emailElement = document.getElementById('email');
                     this.lastNameElement =
-                        this.formElement.querySelector('Nom');
-                    this.nameElement = this.formElement.querySelector('Prenom');
+                    document.getElementById('Nom');
+                    this.nameElement = document.getElementById('Prenom');
                     this.secretQuestionElement =
-                        this.formElement.querySelector('Question_Secrete');
+                    document.getElementById('Question_Secrete');
                     this.secretQuestionAnswerElement =
-                        this.formElement.querySelector(
+                    document.getElementById(
                             'Reponse_a_la_question_Secrete'
                         );
                     break;
@@ -32,7 +34,6 @@ class formHandler {
                     throw error('pas de formulaire');
             }
         }
-    }
     getValue(element) {
         return element.value;
     }
@@ -48,28 +49,35 @@ class formHandler {
     setValueToDOM(domElement, value) {
         domElement.value = value;
     }
+
+    assignEvent(element) {
+        this.formId === 'formLogin' ? element.addEventListener('click', (e) => {handdleSubmitLogin(e)}) : element.addEventListener('click', () => {this.handdleSubmitInscription(e)});
+    }
+
     handdleSubmitLogin(e) {
         e.preventDefault(); // Prevent default form submission behavior
-        if (connectionIsCorrect) {
-            redirect();
-        } else {
+       if(connectionIsCorrect())
+        {
+            redirect('inscription.html');
+        }
+        else
+        {
             error();
         }
     }
     handdleSubmitInscription(e) {
         e.preventDefault(); // Prevent default form submission behavior
-        if (connectionIsCorrect) {
-            redirect();
+        if (connectionIsCorrect()) {
+            redirect("connexion.html");
         } else {
-            error();
+            error(errors);
         }
     }
+    error()
+    {
+        alert('il y a un problème');
+    }
 }
-
-window.addEventListener('load', () => {
-    // const formLogin = new formHandler('formLogin');
-    // const formInscription = new formHandler('formInscription');
-});
 
 async function loadXMLDoc(filename) {
     try {
@@ -81,6 +89,10 @@ async function loadXMLDoc(filename) {
     } catch (error) {
         console.error(error);
     }
+}
+
+function redirect(url) {
+    window.location.replace(url);
 }
 
 function findUser(xml, username) {
@@ -113,17 +125,55 @@ function connectionIsCorrect(xml, username, password) {
 }
 
 function connectUser(xml, username, password) {
-    console.log('username : ', username);
-    console.log('password : ', password);
-
     if (connectionIsCorrect(xml, username, password)) {
         //redirect
         console.log('redirect');
+
+        var fs = require('fs');
+        // fs.writeFile('./data/currentuser.txt', username, function (err, data) {
+        //     if (err) {
+        //         return console.error(err);
+        //     }
+        //     console.log('Data read : ' + data.toString());
+        // });
+        redirect('index.html');
         return;
     }
     //error
     console.log('error');
+    window.location.reload();
+    // redirect(window.location.href);
     return;
+}
+
+function loadPartenaires(xml) {
+    const list = document.querySelector('#partenaires');
+
+    const partenaires = xml.querySelectorAll('Partenaire');
+
+    partenaires.forEach((partenaire) => {
+        var element = document.createElement('article');
+
+        var title = document.createElement('h3');
+        var description = document.createElement('p');
+        var logo = document.createElement('img');
+        var button = document.createElement('button');
+
+        title.textContent = partenaire.querySelector('Nom').textContent;
+        description.textContent =
+            partenaire.querySelector('Preview').textContent;
+
+        logo.src = partenaire.querySelector('Logo').textContent;
+
+        button.textContent = 'Afficher la suite';
+
+        element.append(title);
+        element.append(logo);
+        element.append(description);
+        element.append(button);
+
+        list.append(element);
+    });
 }
 
 function redirect(href) {
@@ -133,35 +183,85 @@ function redirect(href) {
 function getInputConnection(params) {
     const formLogin = document.querySelector('#formLogin');
     if (formLogin) {
-        console.log('formLogin : ', formLogin);
-        username = formLogin.querySelector("input[name='Username']");
-        password = formLogin.querySelector("input[name='Password']");
-    } else {
-        username = 'PasBenjamin';
-        password = 'mdp123!';
-
-        username = 'JeanMichel';
-        // password = 'passw0rd!';
+        username = formLogin.querySelector("input[name='Username']").value;
+        password = formLogin.querySelector("input[name='Password']").value;
     }
+    // else {
+    //     username = 'PasBenjamin';
+    //     password = 'mdp123!';
+
+    //     username = 'JeanMichel';
+    //     // password = 'passw0rd!';
+    // }
 
     return { username: username, password: password };
 }
+function getIdFromForm()
+{
+    return document.getElementsByTagName("form")[0].id; 
+}
+
 
 window.addEventListener('load', () => {
-    const userInput = getInputConnection();
-
     generateHeader();
+    const submitLogin = document.querySelector('#submitLogin');
+    submitLogin.addEventListener('click', (event) => {
+        event.preventDefault();
+        const userInput = getInputConnection();
 
-    loadXMLDoc('./Utilisateurs.xml')
-        .then((xml) => connectUser(xml, userInput.username, userInput.password))
-        .catch(function (error) {
-            console.error(error);
-        });
+    
+        loadXMLDoc('./data/Utilisateurs.xml')
+            .then((xml) =>
+                connectUser(xml, userInput.username, userInput.password)
+            )
+            .catch(function (error) {
+                console.error(error);
+            });
+    });
+
+    // loadXMLDoc('./data/Utilisateurs.xml')
+    //     .then((xml) => connectUser(xml, username, password))
+    //     .catch(function (error) {
+    //         console.error(error);
+    //     });
+
+    if (document.querySelector('#partenaires') != null) {
+        loadXMLDoc('./data/Partenaires.xml')
+            .then((xml) => loadPartenaires(xml))
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+    const formLogin = new formHandler(getIdFromForm());
+    const buttonDeco = document.getElementById('btnDeco');
+
+    buttonDeco.addEventListener('click', () =>{
+
+        try {
+            let file;
+            // Create an instance of the FileSystemObject
+            file = new ActiveXObject("Scripting.FileSystemObject");
+          
+            let f = file.GetFile("data/currentUser.txt");
+            f.Delete();
+        
+            file = new File("", "data/currentUser.txt", {
+                type: "text/plain",
+            });
+        
+        
+            redirect("index.html");
+        }
+        catch{
+            alert("Problème de déconnexion");
+        }
+    
+    });
+    
 });
 
-function generictruc(xmlPRosmise, fonctin) {
-    xmlPRosmise.then(fonction);
-}
+
+
 //chercher si l'tilisateur exist
 //on la trouvé (si pas trouvé erreur, sino redirigé)
 //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).

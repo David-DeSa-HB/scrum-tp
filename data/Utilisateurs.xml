@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Utilisateurs [ <!ELEMENT Utilisateurs (Utilisateur*)>
+<!ELEMENT Utilisateur (UserName, Password, Nom?, Prenom?, Question_Secrete?, Reponse_a_la_question_Secrete?)>
+
+<!ELEMENT UserName (#PCDATA)>
+<!ELEMENT Password (#PCDATA)>
+<!ELEMENT Nom (#PCDATA)>
+<!ELEMENT Prenom (#PCDATA)>
+<!ELEMENT Question_Secrete (#PCDATA)>
+<!ELEMENT Reponse_a_la_question_Secrete (#PCDATA)>
+]>
+
+<Utilisateurs>
+    <Utilisateur>
+        <UserName>JeanMichel</UserName>
+        <Password>passw0rd</Password>
+        <Nom>Michel</Nom>
+        <Prenom>Jean</Prenom>
+        <Question_Secrete>Quel est ton animal favori ?</Question_Secrete>
+        <Reponse_a_la_question_Secrete>Chat</Reponse_a_la_question_Secrete>
+    </Utilisateur>
+    <Utilisateur>
+        <UserName>PasBenjamin</UserName>
+        <Password>mdp123!</Password>
+        <Nom>Benjamin</Nom>
+        <Prenom>Pas</Prenom>
+        <Question_Secrete>
+            A quel point pourrais-je être virulent ?
+        </Question_Secrete>
+        <Reponse_a_la_question_Secrete>Beaucoup</Reponse_a_la_question_Secrete>
+    </Utilisateur>
+    <Utilisateur>
+        <UserName>aze</UserName>
+        <Password>aze</Password>
+        <Nom>Benjamin</Nom>
+        <Prenom>Pas</Prenom>
+        <Question_Secrete>
+            A quel point pourrais-je être virulent ?
+        </Question_Secrete>
+        <Reponse_a_la_question_Secrete>Beaucoup</Reponse_a_la_question_Secrete>
+    </Utilisateur>
+</Utilisateurs>
