@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Partenaires
+[
+<!ELEMENT Partenaires (Partenaire*)>
+<!ELEMENT Partenaire(Nom, Description, Logo)>
+
+<!ELEMENT Nom(#PCDATA)>
+<!ELEMENT Description(#PCDATA)>
+<!ELEMENT Logo(#PCDATA)>
+]>
+
+<Partenaires>
+    <Partenaire>
+        <Nom>OCAR</Nom>
+        <Description>OCAR est une compagnie d’assurance qui est présente sur tout le territoire.
+        Nous proposons est une solution clé en main et une mise en place entièrement
+        gratuite allant d’un simple lien tracké à une intégration totale dans votre
+        parcours de vente.
+        Bénéficiez d’un espace dédié pour suivre à tout moment le nombre de devis
+        effectués, de contrats souscrits et votre rémunération en cours. Le reste, c’est
+        pour nous. On s’occupe de toute la gestion du contrat : de la résiliation chez
+        l’ancien assureur à la gestion des sinistres en cas de pépin.
+        Une rémunération qui s’adapte à vous. Recevez une commission fixe ou un
+        pourcentage en fonction du nombre de devis effectués ou de contrats souscrits.</Description>
+        <Logo>./img/OCAR.png</Logo>
+    </Partenaire>
+</Partenaires>
