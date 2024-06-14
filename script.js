@@ -50,11 +50,13 @@ class formHandler {
         domElement.value = value;
     }
 
-    assignEvent(element)
-    {
-
-        this.formId === 'formLogin' ? element.addEventListener('submit', (e) => {handdleSubmitLogin(e)}) : element.addEventListener('submit', (e) =>{ this.handdleSubmitInscription(e)}) ;
-
+    assignEvent(element) {
+        formId === 'formLogin'
+            ? element.addEventListener('click', handdleSubmitLogin(e))
+            : element.addEventListener(
+                  'click',
+                  this.handdleSubmitInscription(e)
+              );
     }
 
     handdleSubmitLogin(e) {
@@ -82,7 +84,6 @@ class formHandler {
     }
 }
 
-
 async function loadXMLDoc(filename) {
     try {
         let response = await fetch(filename);
@@ -95,9 +96,7 @@ async function loadXMLDoc(filename) {
     }
 }
 
-
-function redirect(url)
-{
+function redirect(url) {
     window.location.replace(url);
 }
 
@@ -130,9 +129,6 @@ function connectionIsCorrect(xml, username, password) {
 }
 
 function connectUser(xml, username, password) {
-    console.log('username : ', username);
-    console.log('password : ', password);
-
     if (connectionIsCorrect(xml, username, password)) {
         //redirect
         console.log('redirect');
@@ -140,7 +136,38 @@ function connectUser(xml, username, password) {
     }
     //error
     console.log('error');
+    location.window.replace(location.window.path);
     return;
+}
+
+function loadPartenaires(xml) {
+    const list = document.querySelector('#partenaires');
+
+    const partenaires = xml.querySelectorAll('Partenaire');
+
+    partenaires.forEach((partenaire) => {
+        var element = document.createElement('article');
+
+        var title = document.createElement('h3');
+        var description = document.createElement('p');
+        var logo = document.createElement('img');
+        var button = document.createElement('button');
+
+        title.textContent = partenaire.querySelector('Nom').textContent;
+        description.textContent =
+            partenaire.querySelector('Preview').textContent;
+
+        logo.src = partenaire.querySelector('Logo').textContent;
+
+        button.textContent = 'Afficher la suite';
+
+        element.append(title);
+        element.append(logo);
+        element.append(description);
+        element.append(button);
+
+        list.append(element);
+    });
 }
 
 function redirect(href) {
@@ -150,16 +177,16 @@ function redirect(href) {
 function getInputConnection(params) {
     const formLogin = document.querySelector('#formLogin');
     if (formLogin) {
-        console.log('formLogin : ', formLogin);
-        username = formLogin.querySelector("input[name='Username']");
-        password = formLogin.querySelector("input[name='Password']");
-    } else {
-        username = 'PasBenjamin';
-        password = 'mdp123!';
-
-        username = 'JeanMichel';
-        // password = 'passw0rd!';
+        username = formLogin.querySelector("input[name='Username']").value;
+        password = formLogin.querySelector("input[name='Password']").value;
     }
+    // else {
+    //     username = 'PasBenjamin';
+    //     password = 'mdp123!';
+
+    //     username = 'JeanMichel';
+    //     // password = 'passw0rd!';
+    // }
 
     return { username: username, password: password };
 }
@@ -170,19 +197,63 @@ function getIdFromForm()
 
 
 window.addEventListener('load', () => {
+    const submitLogin = document.querySelector('#submitLogin');
+    submitLogin.addEventListener('click', (event) => {
+        event.preventDefault();
+        const userInput = getInputConnection();
+        loadXMLDoc('./Utilisateurs.xml')
+            .then((xml) =>
+                connectUser(xml, userInput.username, userInput.password)
+            )
+            .catch(function (error) {
+                console.error(error);
+            });
+    });
     const userInput = getInputConnection();
 
-    loadXMLDoc('./Utilisateurs.xml')
-        .then((xml) => connectUser(xml, userInput.username, userInput.password))
+    loadXMLDoc('./data/Utilisateurs.xml')
+        .then((xml) => connectUser(xml, username, password))
         .catch(function (error) {
             console.error(error);
         });
-    const formLogin = new formHandler(getIdFromForm());
 
+    if (document.querySelector('#partenaires') != null) {
+        loadXMLDoc('./data/Partenaires.xml')
+            .then((xml) => loadPartenaires(xml))
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+    const formLogin = new formHandler(getIdFromForm());
+    const buttonDeco = window.getElementById('btnDeco');
 
 
     
 });
+
+buttonDeco.addEventListener('click', () =>{
+
+    try {
+        var file;
+        // Create an instance of the FileSystemObject
+        file = new ActiveXObject("Scripting.FileSystemObject");
+      
+        var f = file.GetFile("data/currentUser.txt");
+        f.Delete();
+    
+        file = new File("", "data/currentUser.txt", {
+            type: "text/plain",
+        });
+    
+    
+        redirect("index.html");
+    }
+    catch{
+        alert("Problème de déconnexion");
+    }
+
+});
+
 //chercher si l'tilisateur exist
 //on la trouvé (si pas trouvé erreur, sino redirigé)
 //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
