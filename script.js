@@ -139,6 +139,8 @@ window.addEventListener('load', () => {
     username = 'PasBenjamin';
     password = 'mdp123!';
 
+    generateHeader();
+
     loadXMLDoc('./Utilisateurs.xml')
         .then((xml) => connectUser(xml, username, password))
         .catch(function (error) {
@@ -152,3 +154,9 @@ function generictruc(xmlPRosmise, fonctin) {
 //chercher si l'tilisateur exist
 //on la trouvé (si pas trouvé erreur, sino redirigé)
 //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
+
+
+function generateHeader() {
+    const body = document.getElementsByTagName("body")[0];
+    console.log(body);
+}
