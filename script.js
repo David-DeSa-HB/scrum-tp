@@ -1,11 +1,12 @@
 class formHandler {
     constructor(formId) {
+        console.log(formId);
         this.formElement = document.getElementById(formId);
         if (this.formElement == null) {
-            throw error('pas de formulaire');
+            throw new Error ('pas de formulaire');
         }
         this.assignElement(formId);
-        this.assignEvent(formId);
+        this.assignEvent(this.formElement);
         
     }
     assignElement(formId)
@@ -13,19 +14,19 @@ class formHandler {
             switch (formId) {
                 case 'formLogin':
                     this.userNameElement =
-                        this.formElement.getElementById('UserName');
+                        document.getElementById('UserName');
                     this.passwordElement =
-                        this.formElement.getElementById('PassWord');
-                    this.submitElement = this.formElement.getElementById('');
+                    document.getElementById('PassWord');
+                    this.submitElement = document.getElementById('');
                 case 'formInscription':
-                    this.emailElement = this.formElement.getElementById('email');
+                    this.emailElement = document.getElementById('email');
                     this.lastNameElement =
-                        this.formElement.getElementById('Nom');
-                    this.nameElement = this.formElement.getElementById('Prenom');
+                    document.getElementById('Nom');
+                    this.nameElement = document.getElementById('Prenom');
                     this.secretQuestionElement =
-                        this.formElement.getElementById('Question_Secrete');
+                    document.getElementById('Question_Secrete');
                     this.secretQuestionAnswerElement =
-                        this.formElement.getElementById(
+                    document.getElementById(
                             'Reponse_a_la_question_Secrete'
                         );
                     break;
@@ -52,28 +53,32 @@ class formHandler {
     assignEvent(element)
     {
 
-        formId === 'formLogin' ? element.addEventListener('click', handdleSubmitLogin(e)) : element.addEventListener('click', this.handdleSubmitInscription(e)) ;
+        this.formId === 'formLogin' ? element.addEventListener('submit', (e) => {handdleSubmitLogin(e)}) : element.addEventListener('submit', (e) =>{ this.handdleSubmitInscription(e)}) ;
 
     }
 
     handdleSubmitLogin(e) {
         e.preventDefault(); // Prevent default form submission behavior
-       if(connectionIsCorrect)
+       if(connectionIsCorrect())
         {
             redirect('inscription.html');
         }
         else
         {
-            error(errors);
+            error();
         }
     }
     handdleSubmitInscription(e) {
         e.preventDefault(); // Prevent default form submission behavior
-        if (connectionIsCorrect) {
-            redirect("connection.html");
+        if (connectionIsCorrect()) {
+            redirect("connexion.html");
         } else {
             error(errors);
         }
+    }
+    error()
+    {
+        alert('il y a un problème');
     }
 }
 
@@ -158,6 +163,11 @@ function getInputConnection(params) {
 
     return { username: username, password: password };
 }
+function getIdFromForm()
+{
+    return document.getElementsByTagName("form")[0].id; 
+}
+
 
 window.addEventListener('load', () => {
     const userInput = getInputConnection();
@@ -167,8 +177,8 @@ window.addEventListener('load', () => {
         .catch(function (error) {
             console.error(error);
         });
-    const formLogin = new formHandler('formLogin');
-    const formInscription = new formHandler('formInscription');
+    const formLogin = new formHandler(getIdFromForm());
+
 
 
     
