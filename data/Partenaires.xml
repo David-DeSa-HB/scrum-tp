@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Partenaires
+[
+    <!ELEMENT Partenaires (Partenaire*)>
+    <!ELEMENT Partenaire (Nom, Preview, Description, Logo)>
+
+        <!ELEMENT Nom (#PCDATA)>
+        <!ELEMENT Preview (#PCDATA)>
+        <!ELEMENT Description (#PCDATA)>
+        <!ELEMENT Logo (#PCDATA)>
+]>
+
+<Partenaires>
+    <Partenaire>
+        <Nom>OCAR</Nom>
+        <Preview>OCAR est une compagnie d’assurance qui est présente sur tout le territoire.</Preview>
+        <Description>OCAR est une compagnie d’assurance qui est présente sur tout le territoire.
+        Nous proposons est une solution clé en main et une mise en place entièrement
+        gratuite allant d’un simple lien tracké à une intégration totale dans votre
+        parcours de vente.
+        Bénéficiez d’un espace dédié pour suivre à tout moment le nombre de devis
+        effectués, de contrats souscrits et votre rémunération en cours. Le reste, c’est
+        pour nous. On s’occupe de toute la gestion du contrat : de la résiliation chez
+        l’ancien assureur à la gestion des sinistres en cas de pépin.
+        Une rémunération qui s’adapte à vous. Recevez une commission fixe ou un
+        pourcentage en fonction du nombre de devis effectués ou de contrats souscrits.</Description>
+        <Logo>./img/OCAR.png</Logo>
+    </Partenaire>
+    <Partenaire>
+        <Nom>ASSURISK</Nom>
+        <Preview>Être bien couvert, votre objectif et notre mission.</Preview>
+        <Description>Être bien couvert, votre objectif et notre mission.
+ASSURISK est le leader français de l’assurance en ligne.
+Nous vous proposons l’offre et les options qui vous correspondent le mieux,
+soit en ligne, soit avec l’un de nos conseillers au téléphone.
+Vous avez le choix de passer soit par notre appli ou soit par votre espace personnel sur le site.
+Mais nous savons que dans ce moment délicat, il est rassurant de parler à quelqu’un :
+un conseiller spécialisé dans la gestion des sinistres est là pour vous.
+Il sera votre interlocuteur unique pour vous accompagner dans toutes vos démarches
+et vous tenir au courant de l’avancée de votre dossier.
+Vous bénéficiez aussi du large réseau de garages partenaires, d’expert, et de l’assistance
+de notre Groupe. Une prise en charge 24h/24, 7 jours/7 qui s’appuie sur la performance
+du 1er groupe mondial d’assurance.</Description>
+        <Logo>./img/ASSURISK.png</Logo>
+    </Partenaire>
+    <Partenaire>
+        <Nom>LES + MUTUALISTES</Nom>
+        <Preview>LES + MUTUALISTES finance la solidarité nationale.</Preview>
+        <Description>LES + MUTUALISTES finance la solidarité nationale.
+Nous appliquons le principe édifié par la Sécurité sociale française en 1945 :
+permettre à chacun de bénéficier d’une protection sociale.
+Chez LES + MUTUALISTES, chacun cotise selon ses moyens et reçoit selon ses besoins.
+LES + MUTUALISTES est ouvert à tous, sans considération d’âge ou d’état de santé.
+Nous garantissons un accès aux soins et une retraite.
+Chaque année, nous collectons et répartissons 300 milliards d’euros.
+Notre mission est double :
+- Sociale : nous garantissons la fiabilité des données sociales ;
+- Économique : nous apportons une contribution aux activités économiques.</Description>
+        <Logo>./img/les-mutualistes.png</Logo>
+    </Partenaire>
+    <Partenaire>
+        <Nom>ALLIA</Nom>
+        <Preview>ALLIA accompagne les entreprises dans leurs démarches en terme d'assurance.</Preview>
+        <Description>ALLIA accompagne les entreprises dans leurs démarches en terme d'assurance.
+Son président est élu pour 3 ans par ses pairs, chefs d'entreprises et présidents de tous
+les ALLIA de France.</Description>
+        <Logo>./img/ALLIA.png</Logo>
+    </Partenaire>
+</Partenaires>
