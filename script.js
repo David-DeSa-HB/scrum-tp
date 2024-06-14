@@ -37,7 +37,7 @@ class formHandler {
         return element.value;
     }
     async setValue(field, value) {
-        domXML = await loadXMLDoc('Utilisateur.xml');
+        domXML = await loadXMLDoc('./Utilisateur.xml');
         setValueToDOM(getFieldFromUser(domXML, field), value);
     }
 
@@ -98,49 +98,72 @@ function redirect(url)
 
 function findUser(xml, username) {
     const allUsers = xml.querySelectorAll('Utilisateur');
-    allUsers.forEach((user) => {
-        usernameIsGood =
-            user.querySelector('UserName').textcontent === username;
-        console.log(user.querySelector('UserName').textContent);
-        console.log(username);
-        console.log(usernameIsGood);
+    for (let index = 0; index < allUsers.length; index++) {
+        const user = allUsers[index];
+        usernameInXML = user.querySelector('UserName').textContent;
+        usernameIsGood = usernameInXML === username;
 
         if (usernameIsGood) {
             return user;
         }
-    });
+    }
+
     return null;
 }
 
 function connectionIsCorrect(xml, username, password) {
     const user = findUser(xml, username);
-    console.log(user);
-    console.log(user?.querySelector('Password').textContent);
-    if (user?.querySelector('Password').textContent === password) {
+    console.log('user : ', user);
+    console.log('username : ', username);
+    console.log('password : ', password);
+    if (user && user.querySelector('Password').textContent === password) {
+        console.log('true');
+
         return true;
     }
     return false;
 }
 
 function connectUser(xml, username, password) {
+    console.log('username : ', username);
+    console.log('password : ', password);
+
     if (connectionIsCorrect(xml, username, password)) {
         //redirect
         console.log('redirect');
+        return;
     }
     //error
     console.log('error');
+    return;
 }
 
 function redirect(href) {
     window.location.replace(href);
 }
 
+function getInputConnection(params) {
+    const formLogin = document.querySelector('#formLogin');
+    if (formLogin) {
+        console.log('formLogin : ', formLogin);
+        username = formLogin.querySelector("input[name='Username']");
+        password = formLogin.querySelector("input[name='Password']");
+    } else {
+        username = 'PasBenjamin';
+        password = 'mdp123!';
+
+        username = 'JeanMichel';
+        // password = 'passw0rd!';
+    }
+
+    return { username: username, password: password };
+}
 
 window.addEventListener('load', () => {
-    const username = 'PasBenjamin';
-    const password = 'mdp123';
+    const userInput = getInputConnection();
+
     loadXMLDoc('./Utilisateurs.xml')
-        .then((xml) => connectUser(xml, username, password))
+        .then((xml) => connectUser(xml, userInput.username, userInput.password))
         .catch(function (error) {
             console.error(error);
         });

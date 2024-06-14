@@ -14,7 +14,7 @@
             required
             type="text"
             name="UserName"
-            id="username"
+            id="UserName"
           />
         </div>
         <div class="">
@@ -23,42 +23,46 @@
             required
             type="password"
             name="Password"
-            id="password"
+            id="Password"
           />
         </div>
         <div class="">
           <label for="Nom">Nom</label>
           <input
+          required
             type="text"
-            name="nom"
-            id="nom"
+            name="Nom"
+            id="Nom"
           />
         </div>
         <div class="">
             <label for="Prenom">Prenom</label>
             <input
+            required
               type="text"
-              name="prenom"
-              id="prenom"
+              name="Prenom"
+              id="Prenom"
             />
           </div>
           <div class="">
             <label for="Question_Secrete">Question Secrete</label>
             <input
+            required
               type="text"
-              name="question_secrete"
-              id="question_secrete"
+              name="Question_secrete"
+              id="Question_secrete"
             />
           </div>
           <div class="">
             <label for="Reponse_a_la_question_secrete">Reponse a la question secrete</label>
             <input
+            required
               type="text"
               name="Reponse_a_la_question_secrete"
               id="Reponse_a_la_question_secrete"
             />
           </div>
-        <button id="submitInscription" type="submit">S'inscrire</button>
+        <button type="submit" id="submitInscription">S'inscrire</button>
       </form>
 </body>
 </html>
