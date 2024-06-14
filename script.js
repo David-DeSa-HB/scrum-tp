@@ -6,6 +6,7 @@ class formHandler {
         }
         assignElement(formId);
         assignEvent(formId);
+
         assignElement(formId);
         {
             switch (formId) {
