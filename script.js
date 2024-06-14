@@ -1,35 +1,39 @@
 class formHandler {
     constructor(formId) {
+        console.log(formId);
         this.formElement = document.getElementById(formId);
         if (this.formElement == null) {
-            throw error('pas de formulaire');
+            throw new Error ('pas de formulaire');
         }
         this.assignElement(formId);
-        this.assignEvent(formId);
+        this.assignEvent(this.formElement);
+        
     }
-    assignElement(formId) {
-        switch (formId) {
-            case 'formLogin':
-                this.userNameElement =
-                    this.formElement.getElementById('UserName');
-                this.passwordElement =
-                    this.formElement.getElementById('PassWord');
-                this.submitElement = this.formElement.getElementById('');
-            case 'formInscription':
-                this.emailElement = this.formElement.getElementById('email');
-                this.lastNameElement = this.formElement.getElementById('Nom');
-                this.nameElement = this.formElement.getElementById('Prenom');
-                this.secretQuestionElement =
-                    this.formElement.getElementById('Question_Secrete');
-                this.secretQuestionAnswerElement =
-                    this.formElement.getElementById(
-                        'Reponse_a_la_question_Secrete'
-                    );
-                break;
-            default:
-                throw error('pas de formulaire');
+    assignElement(formId)
+        {
+            switch (formId) {
+                case 'formLogin':
+                    this.userNameElement =
+                        document.getElementById('UserName');
+                    this.passwordElement =
+                    document.getElementById('PassWord');
+                    this.submitElement = document.getElementById('');
+                case 'formInscription':
+                    this.emailElement = document.getElementById('email');
+                    this.lastNameElement =
+                    document.getElementById('Nom');
+                    this.nameElement = document.getElementById('Prenom');
+                    this.secretQuestionElement =
+                    document.getElementById('Question_Secrete');
+                    this.secretQuestionAnswerElement =
+                    document.getElementById(
+                            'Reponse_a_la_question_Secrete'
+                        );
+                    break;
+                default:
+                    throw error('pas de formulaire');
+            }
         }
-    }
     getValue(element) {
         return element.value;
     }
@@ -57,19 +61,26 @@ class formHandler {
 
     handdleSubmitLogin(e) {
         e.preventDefault(); // Prevent default form submission behavior
-        if (connectionIsCorrect) {
+       if(connectionIsCorrect())
+        {
             redirect('inscription.html');
-        } else {
-            error(errors);
+        }
+        else
+        {
+            error();
         }
     }
     handdleSubmitInscription(e) {
         e.preventDefault(); // Prevent default form submission behavior
-        if (connectionIsCorrect) {
-            redirect('connection.html');
+        if (connectionIsCorrect()) {
+            redirect("connexion.html");
         } else {
             error(errors);
         }
+    }
+    error()
+    {
+        alert('il y a un problème');
     }
 }
 
@@ -189,6 +200,11 @@ function getInputConnection(params) {
 
     return { username: username, password: password };
 }
+function getIdFromForm()
+{
+    return document.getElementsByTagName("form")[0].id; 
+}
+
 
 window.addEventListener('load', () => {
     const submitLogin = document.querySelector('#submitLogin');
@@ -217,9 +233,9 @@ window.addEventListener('load', () => {
                 console.error(error);
             });
     }
-    const formLogin = new formHandler('formLogin');
-    const formInscription = new formHandler('formInscription');
+    const formLogin = new formHandler(getIdFromForm());
     const buttonDeco = window.getElementById('btnDeco');
+
 
     
 });
