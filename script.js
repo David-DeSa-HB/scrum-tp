@@ -237,53 +237,53 @@ function findPrenom(userXML) {
 
 function generateHeader() {
     if (!window.location.pathname.includes('connexion.html')) {
-        const body = document.querySelector('body');
-
-        const header = document.createElement('header');
-
-        const divNom = document.createElement('div');
-        header.appendChild(divNom);
-
-        const labelNom = document.createElement('label');
-        labelNom.id = 'labelNom';
-        divNom.appendChild(labelNom);
-
-        const divPrenom = document.createElement('div');
-        header.appendChild(divPrenom);
-
-        const labelPrenom = document.createElement('label');
-        labelPrenom.id = 'labelPrenom';
-
-        divPrenom.appendChild(labelPrenom);
-
         loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
+            const body = document.querySelector('body');
+            const header = createTagWithParent('header', body);
+
             const username = getConnectedUser();
-            const labelPrenom = document.querySelector('#labelPrenom');
-            const labelNom = document.querySelector('#labelNom');
             const userXML = findUser(xml, username);
-            labelPrenom.innerHTML = findPrenom(userXML);
-            labelNom.innerHTML = findNom(userXML);
+
+            const divNom = createTagWithParent('div', header);
+            const labelNom = createTagWithParent('label', divNom, {
+                id: 'labelNom',
+                content: findPrenom(userXML),
+            });
+
+            const divPrenom = createTagWithParent('div', header);
+            const labelPrenom = createTagWithParent('label', divPrenom, {
+                id: 'labelPrenom',
+                content: findNom(userXML),
+            });
+
+            const divDeconnexion = createTagWithParent('div', header);
+
+            const boutonDeconnexion = createTagWithParent(
+                'button',
+                divDeconnexion,
+                {
+                    id: 'btnDeco',
+                    content: 'Déconnexion',
+                }
+            );
+            body.innerHTML = header.outerHTML + body.innerHTML;
         });
-
-        const divDeconnexion = document.createElement('div');
-        header.appendChild(divDeconnexion);
-
-        const boutonDeconnexion = document.createElement('button');
-        boutonDeconnexion.id = 'btnDeco';
-        boutonDeconnexion.innerHTML = 'Déconnexion';
-        divDeconnexion.appendChild(boutonDeconnexion);
-
-        body.innerHTML = header.outerHTML + body.innerHTML;
     }
 }
 
-function createTagWithParent(name_tag, tag_parent, class_tag, content) {
+function createTagWithParent(
+    name_tag,
+    tag_parent,
+    { class_tag, content, id } = {}
+) {
+    // class_tag =
     const tag = document.createElement(name_tag);
-    tag.className = class_tag;
+    // tag.className = class_tag;
     if (tag_parent) {
         tag_parent.appendChild(tag);
-    } else {
-        console.log('else', tag_parent);
+    }
+    if (id) {
+        tag.id = id;
     }
     tag.textContent = content;
     return tag;
