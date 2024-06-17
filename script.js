@@ -162,7 +162,7 @@ function connectUser(xml, username, password) {
         //     console.log('data.json written correctly');
         // });
         // console.log('userJSON : ', userJSON);
-
+        localStorage.name = username;
         redirect('index.html');
         return;
     }
@@ -213,38 +213,13 @@ function getInputConnection(params) {
         username = formLogin.querySelector("input[name='Username']").value;
         password = formLogin.querySelector("input[name='Password']").value;
     }
-    // else {
-    //     username = 'PasBenjamin';
-    //     password = 'mdp123!';
-
-    //     username = 'JeanMichel';
-    //     // password = 'passw0rd!';
-    // }
-
     return { username: username, password: password };
 }
 function getIdFromForm() {
     return document.getElementsByTagName('form')[0].id;
 }
 
-window.addEventListener('load', () => {
-    generateHeader();
-    const submitLogin = document.querySelector('#submitLogin');
-    submitLogin.addEventListener('click', (event) => {
-        console.log('click');
-
-        event.preventDefault();
-        const userInput = getInputConnection();
-
-        loadXMLDoc('./data/Utilisateurs.xml')
-            .then((xml) =>
-                connectUser(xml, userInput.username, userInput.password)
-            )
-            .catch(function (error) {
-                console.error(error);
-            });
-    });
-
+function loadXMLPartenaires() {
     if (document.querySelector('#partenaires') != null) {
         loadXMLDoc('./data/Partenaires.xml')
             .then((xml) => loadPartenaires(xml))
@@ -252,6 +227,7 @@ window.addEventListener('load', () => {
                 console.error(error);
             });
     }
+<<<<<<< HEAD
     const formLogin = new formHandler(getIdFromForm());
     const buttonDeco = document.getElementById('btnDeco');
     if (buttonDeco != null) {
@@ -268,12 +244,65 @@ window.addEventListener('load', () => {
                     type: 'text/plain',
                 });
 
+=======
+}
+
+function buttonConnection() {
+    try {
+        const submitLogin = document.querySelector('#submitLogin');
+        submitLogin.addEventListener('click', (event) => {
+            console.log('click');
+
+            event.preventDefault();
+            const userInput = getInputConnection();
+
+            loadXMLDoc('./data/Utilisateurs.xml')
+                .then((xml) =>
+                    connectUser(xml, userInput.username, userInput.password)
+                )
+                .catch(function (error) {
+                    console.error(error);
+                });
+        });
+    } catch (error) {}
+}
+
+function makeDeconnection() {
+    try {
+        const formLogin = new formHandler(getIdFromForm());
+        const buttonDeco = document.getElementById('btnDeco');
+        buttonDeco.addEventListener('click', () => {
+            try {
+                var file;
+                // Create an instance of the FileSystemObject
+                file = new ActiveXObject('Scripting.FileSystemObject');
+
+                var f = file.GetFile('data/currentUser.txt');
+                f.Delete();
+
+                file = new File('', 'data/currentUser.txt', {
+                    type: 'text/plain',
+                });
+
+>>>>>>> 6d9f1ca345a692515d2cb88460a12ad58809c733
                 redirect('index.html');
             } catch {
                 alert('Problème de déconnexion');
             }
         });
+<<<<<<< HEAD
     }
+=======
+    } catch (error) {}
+}
+
+window.addEventListener('load', () => {
+    console.log('local1 : ', localStorage.name);
+    generateHeader();
+    loadXMLPartenaires();
+    makeDeconnection();
+    buttonConnection();
+>>>>>>> 6d9f1ca345a692515d2cb88460a12ad58809c733
 
     //chercher si l'tilisateur exist
     //on la trouvé (si pas trouvé erreur, sino redirigé)
