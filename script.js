@@ -278,16 +278,14 @@ function generateHeader() {
         labelPrenom.id = 'labelPrenom';
 
         divPrenom.appendChild(labelPrenom);
-        divPrenom.appendChild(labelPrenom);
 
         loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
-            getConnectedUser().then((username) => {
-                const labelPrenom = document.querySelector('#labelPrenom');
-                const labelNom = document.querySelector('#labelNom');
-                const userXML = findUser(xml, username);
-                labelPrenom.innerHTML = findPrenom(userXML);
-                labelNom.innerHTML = findNom(userXML);
-            });
+            const username = getConnectedUser();
+            const labelPrenom = document.querySelector('#labelPrenom');
+            const labelNom = document.querySelector('#labelNom');
+            const userXML = findUser(xml, username);
+            labelPrenom.innerHTML = findPrenom(userXML);
+            labelNom.innerHTML = findNom(userXML);
         });
 
         const divDeconnexion = document.createElement('div');
