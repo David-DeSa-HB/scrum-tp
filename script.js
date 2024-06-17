@@ -2,7 +2,6 @@ window.addEventListener('load', () => {
     console.log('local : ', localStorage.name);
     generateHeader();
     loadXMLPartenaires();
-    makeDeconnection();
     buttonConnection();
     generateFooter();
 });
@@ -198,10 +197,14 @@ function buttonConnection() {
 function makeDeconnection() {
     try {
         const buttonDeco = document.getElementById('btnDeco');
+        console.log('buttonDeco', buttonDeco);
+
         buttonDeco.addEventListener('click', () => {
+            console.log('clique');
+
             try {
                 delete localStorage.name;
-                redirect('index.html');
+                redirect('connexion.html');
                 alert('Déconnexion réussie');
             } catch {
                 alert('Problème de déconnexion');
@@ -256,6 +259,7 @@ function generateHeader() {
                 }
             );
             body.innerHTML = header.outerHTML + body.innerHTML;
+            makeDeconnection();
         });
     }
 }
