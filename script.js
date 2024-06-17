@@ -151,6 +151,13 @@ function loadPartenaires(xml) {
         logo.src = partenaire.querySelector('Logo').textContent;
 
         button.textContent = 'Afficher la suite';
+        button.addEventListener('click', () => {
+            localStorage.setItem(
+                'partenaire',
+                partenaire.querySelector('Nom').textContent
+            );
+            redirect('partenaire.html');
+        });
 
         element.append(title);
         element.append(logo);
@@ -158,6 +165,68 @@ function loadPartenaires(xml) {
         element.append(button);
 
         list.append(element);
+    });
+}
+
+function showPartenaire(xml) {
+    const section = document.querySelector('#partenaire');
+    const like = document.querySelector('#like');
+    const dislike = document.querySelector('#dislike');
+    const comSection = document.querySelector('#commentaires');
+
+    const partenaires = xml.querySelectorAll('Partenaire');
+
+    let partenaire;
+
+    partenaires.forEach((p) => {
+        if (
+            p.querySelector('Nom').textContent ==
+            localStorage.getItem('partenaire')
+        ) {
+            partenaire = p;
+        }
+    });
+
+    var element = document.createElement('article');
+
+    var title = document.createElement('h1');
+    var description = document.createElement('p');
+    var logo = document.createElement('img');
+
+    title.textContent = partenaire.querySelector('Nom').textContent;
+    description.textContent =
+        partenaire.querySelector('Description').textContent;
+
+    logo.src = partenaire.querySelector('Logo').textContent;
+
+    like.textContent = 'Like : ' + partenaire.querySelectorAll('Like').length;
+    dislike.textContent =
+        'Dislike : ' + partenaire.querySelectorAll('Dislike').length;
+
+    element.append(title);
+    element.append(logo);
+    element.append(description);
+
+    section.append(element);
+
+    const commentaires = partenaire.querySelectorAll('Commentaire');
+
+    commentaires.forEach((c) => {
+        var element = document.createElement('article');
+
+        var title = document.createElement('h3');
+        var description = document.createElement('p');
+        var date = document.createElement('p');
+
+        title.textContent = c.querySelector('UserName').textContent;
+        description.textContent = c.querySelector('Texte').textContent;
+        date.textContent = c.querySelector('Date').textContent;
+
+        element.append(title);
+        element.append(description);
+        element.append(date);
+
+        comSection.append(element);
     });
 }
 
@@ -178,6 +247,14 @@ window.addEventListener('load', () => {
     if (document.querySelector('#partenaires') != null) {
         loadXMLDoc('./data/Partenaires.xml')
             .then((xml) => loadPartenaires(xml))
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+
+    if (document.querySelector('#partenaire') != null) {
+        loadXMLDoc('./data/Partenaires.xml')
+            .then((xml) => showPartenaire(xml))
             .catch(function (error) {
                 console.error(error);
             });
