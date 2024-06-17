@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
     loadXMLPartenaires();
     makeDeconnection();
     buttonConnection();
+    generateFooter();
 });
 class formHandler {
     constructor(formId) {
@@ -265,14 +266,18 @@ function createTagWithParent(
     { class_tag, content, id } = {}
 ) {
     const tag = document.createElement(name_tag);
-    tag.className = class_tag;
     if (tag_parent) {
         tag_parent.appendChild(tag);
+    }
+    if (class_tag) {
+        tag.className = class_tag;
+    }
+    if (content) {
+        tag.textContent = content;
     }
     if (id) {
         tag.id = id;
     }
-    tag.textContent = content;
     return tag;
 }
 function createTagFromXML(
@@ -292,6 +297,5 @@ function createTagFromXML(
 function generateFooter() {
     const body = document.querySelector('body');
 
-    const footer = document.createElement('footer');
-    body.appendChild(footer);
+    const footer = createTagWithParent('footer', body);
 }
