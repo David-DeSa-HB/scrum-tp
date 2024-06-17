@@ -212,17 +212,15 @@ function buttonConnection() {
 
 function makeDeconnection() {
     try {
-        console.log('deco1');
         // const formLogin = new formHandler(getIdFromForm());
-        console.log('deco2');
         const buttonDeco = document.getElementById('btnDeco');
-        console.log('deco3');
         buttonDeco.addEventListener('click', () => {
             try {
                 delete localStorage.name;
                 console.log('localStorage.name : ', localStorage.name);
 
                 redirect('index.html');
+                alert('Déconnexion réussie');
             } catch {
                 alert('Problème de déconnexion');
             }
