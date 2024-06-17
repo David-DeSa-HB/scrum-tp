@@ -1,17 +1,11 @@
 <?php
 
-    $username = $_POST["username"];
-    $texte = $_POST["username"];
-    $date = $_POST["username"];
+    // $username = $_POST["username"];
+    // $texte = $_POST["username"];
+    // $date = $_POST["username"];
 
+    $xml =simplexml_load_file("data/Partenaires.xml");
 
-    if(class_exists('DOMDocument')) { 
-        echo "Class name exists"; 
-    } 
-    else { 
-        echo "Class name does not exist"; 
-    } 
+    $xml
 
-    $dom = new DOMDocument();
-    $dom->load('data/Utilisateurs.xml')
-
+    var_dump($xml);
