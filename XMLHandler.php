@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "Inscription mise à jour réussie!";
 
     // Redirect to index.html
-    header("Location: index.html");
+    header("Location: connexion.html");
     exit();
 } else {
     echo "Aucune donnée soumise!";
