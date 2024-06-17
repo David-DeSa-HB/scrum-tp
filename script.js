@@ -4,10 +4,6 @@ window.addEventListener('load', () => {
     loadXMLPartenaires();
     makeDeconnection();
     buttonConnection();
-
-    //chercher si l'tilisateur exist
-    //on la trouvé (si pas trouvé erreur, sino redirigé)
-    //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
 });
 class formHandler {
     constructor(formId) {
@@ -199,7 +195,6 @@ function buttonConnection() {
         submitLogin.addEventListener('click', (event) => {
             event.preventDefault();
             const userInput = getInputConnection();
-
             loadXMLDoc('./data/Utilisateurs.xml')
                 .then((xml) =>
                     connectUser(xml, userInput.username, userInput.password)
@@ -213,13 +208,10 @@ function buttonConnection() {
 
 function makeDeconnection() {
     try {
-        // const formLogin = new formHandler(getIdFromForm());
         const buttonDeco = document.getElementById('btnDeco');
         buttonDeco.addEventListener('click', () => {
             try {
                 delete localStorage.name;
-                console.log('localStorage.name : ', localStorage.name);
-
                 redirect('index.html');
                 alert('Déconnexion réussie');
             } catch {
