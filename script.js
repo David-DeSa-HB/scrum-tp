@@ -243,13 +243,7 @@ window.addEventListener('load', () => {
 });
 
 function getConnectedUser() {
-    const text = fetch('data/currentUser.txt')
-        .then((res) => res.text())
-        .then((text) => {
-            console.log('text : ' + text);
-            return text;
-        });
-    return text;
+    return localStorage.name;
 }
 
 function findNom(userXML) {
@@ -276,13 +270,21 @@ function generateHeader() {
         const labelNom = document.createElement('label');
         labelNom.id = 'labelNom';
         divNom.appendChild(labelNom);
+        const labelNom = document.createElement('label');
+        labelNom.id = 'labelNom';
+        divNom.appendChild(labelNom);
 
+        const divPrenom = document.createElement('div');
+        header.appendChild(divPrenom);
         const divPrenom = document.createElement('div');
         header.appendChild(divPrenom);
 
         const labelPrenom = document.createElement('label');
         labelPrenom.id = 'labelPrenom';
+        const labelPrenom = document.createElement('label');
+        labelPrenom.id = 'labelPrenom';
 
+        divPrenom.appendChild(labelPrenom);
         divPrenom.appendChild(labelPrenom);
 
         loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
@@ -295,6 +297,8 @@ function generateHeader() {
             });
         });
 
+        const divDeconnexion = document.createElement('div');
+        header.appendChild(divDeconnexion);
         const divDeconnexion = document.createElement('div');
         header.appendChild(divDeconnexion);
 
