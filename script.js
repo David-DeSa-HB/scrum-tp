@@ -277,6 +277,7 @@ function makeDeconnection() {
 window.addEventListener('load', () => {
     console.log('local1 : ', localStorage.name);
     generateHeader();
+    generateFooter();
     loadXMLPartenaires();
     makeDeconnection();
     buttonConnection();
@@ -346,4 +347,11 @@ function generateHeader() {
     }
 
     body.innerHTML = header.outerHTML + body.innerHTML;
+}
+
+function generateFooter() {
+    const body = document.querySelector('body');
+
+    const footer = document.createElement('footer');
+    body.appendChild(footer);
 }
