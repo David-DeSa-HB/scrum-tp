@@ -1,4 +1,14 @@
-// import * as fs from 'fs';
+window.addEventListener('load', () => {
+    console.log('local1 : ', localStorage.name);
+    generateHeader();
+    loadXMLPartenaires();
+    makeDeconnection();
+    buttonConnection();
+
+    //chercher si l'tilisateur exist
+    //on la trouvé (si pas trouvé erreur, sino redirigé)
+    //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
+});
 class formHandler {
     constructor(formId) {
         console.log(formId);
@@ -227,18 +237,6 @@ function makeDeconnection() {
         });
     } catch (error) {}
 }
-
-window.addEventListener('load', () => {
-    console.log('local1 : ', localStorage.name);
-    generateHeader();
-    loadXMLPartenaires();
-    makeDeconnection();
-    buttonConnection();
-
-    //chercher si l'tilisateur exist
-    //on la trouvé (si pas trouvé erreur, sino redirigé)
-    //si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
-});
 
 function getConnectedUser() {
     return localStorage.name;
