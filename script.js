@@ -254,24 +254,26 @@ window.addEventListener('load', () => {
     }
     const formLogin = new formHandler(getIdFromForm());
     const buttonDeco = document.getElementById('btnDeco');
-    buttonDeco.addEventListener('click', () => {
-        try {
-            var file;
-            // Create an instance of the FileSystemObject
-            file = new ActiveXObject('Scripting.FileSystemObject');
+    if (buttonDeco != null) {
+        buttonDeco.addEventListener('click', () => {
+            try {
+                var file;
+                // Create an instance of the FileSystemObject
+                file = new ActiveXObject('Scripting.FileSystemObject');
 
-            var f = file.GetFile('data/currentUser.txt');
-            f.Delete();
+                var f = file.GetFile('data/currentUser.txt');
+                f.Delete();
 
-            file = new File('', 'data/currentUser.txt', {
-                type: 'text/plain',
-            });
+                file = new File('', 'data/currentUser.txt', {
+                    type: 'text/plain',
+                });
 
-            redirect('index.html');
-        } catch {
-            alert('Problème de déconnexion');
-        }
-    });
+                redirect('index.html');
+            } catch {
+                alert('Problème de déconnexion');
+            }
+        });
+    }
 
     //chercher si l'tilisateur exist
     //on la trouvé (si pas trouvé erreur, sino redirigé)
@@ -299,47 +301,44 @@ function findPrenom(userXML) {
 }
 
 function generateHeader() {
-    if(!window.location.pathname.includes("connexion.html")){
-        console.log('generateHeader : ', generateHeader);
-
     const body = document.querySelector('body');
 
     const header = document.createElement('header');
+    if (!window.location.pathname.includes('connexion.html')) {
+        console.log('generateHeader : ', generateHeader);
 
-    const divNom = document.createElement('div');
-    header.appendChild(divNom);
+        const divNom = document.createElement('div');
+        header.appendChild(divNom);
 
-    const labelNom = document.createElement('label');
-    labelNom.id = 'labelNom';
-    divNom.appendChild(labelNom);
+        const labelNom = document.createElement('label');
+        labelNom.id = 'labelNom';
+        divNom.appendChild(labelNom);
 
-    const divPrenom = document.createElement('div');
-    header.appendChild(divPrenom);
+        const divPrenom = document.createElement('div');
+        header.appendChild(divPrenom);
 
-    const labelPrenom = document.createElement('label');
-    labelPrenom.id = 'labelPrenom';
+        const labelPrenom = document.createElement('label');
+        labelPrenom.id = 'labelPrenom';
 
-    divPrenom.appendChild(labelPrenom);
+        divPrenom.appendChild(labelPrenom);
 
-    loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
-        getConnectedUser().then((username) => {
-            const labelPrenom = document.querySelector('#labelPrenom');
-            const labelNom = document.querySelector('#labelNom');
-            const userXML = findUser(xml, username);
-            labelPrenom.innerHTML = findPrenom(userXML);
-            labelNom.innerHTML = findNom(userXML);
+        loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
+            getConnectedUser().then((username) => {
+                const labelPrenom = document.querySelector('#labelPrenom');
+                const labelNom = document.querySelector('#labelNom');
+                const userXML = findUser(xml, username);
+                labelPrenom.innerHTML = findPrenom(userXML);
+                labelNom.innerHTML = findNom(userXML);
+            });
         });
-    });
 
-    const divDeconnexion = document.createElement('div');
-    header.appendChild(divDeconnexion);
+        const divDeconnexion = document.createElement('div');
+        header.appendChild(divDeconnexion);
 
-    const boutonDeconnexion = document.createElement('button');
-    boutonDeconnexion.id = 'btnDeco';
-    boutonDeconnexion.innerHTML = 'Déconnexion';
-    divDeconnexion.appendChild(boutonDeconnexion);
-
-    body.innerHTML = header.outerHTML + body.innerHTML;
+        const boutonDeconnexion = document.createElement('button');
+        boutonDeconnexion.id = 'btnDeco';
+        boutonDeconnexion.innerHTML = 'Déconnexion';
+        divDeconnexion.appendChild(boutonDeconnexion);
     }
-    
+    body.innerHTML = header.outerHTML + body.innerHTML;
 }
