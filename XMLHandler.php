@@ -19,15 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $existingUser = $xpath->query($query)->item(0);
 
     if ($existingUser) {
-        // Update existing user
-        $existingUser->getElementsByTagName('Password')->item(0)->nodeValue = htmlspecialchars($password);
-        $existingUser->getElementsByTagName('Nom')->item(0)->nodeValue = htmlspecialchars($nom);
-        $existingUser->getElementsByTagName('Prenom')->item(0)->nodeValue = htmlspecialchars($prenom);
-        $existingUser->getElementsByTagName('Question_Secrete')->item(0)->nodeValue = htmlspecialchars($questionSecrete);
-        $existingUser->getElementsByTagName('Reponse_a_la_question_Secrete')->item(0)->nodeValue = htmlspecialchars($reponseSecrete);
+        // Helper function to update or create an element
+        function updateOrCreateElement($xml, $parent, $tag, $value) {
+            $element = $parent->getElementsByTagName($tag)->item(0);
+            if ($element) {
+                $element->nodeValue = htmlspecialchars($value);
+            } else {
+                $newElement = $xml->createElement($tag, htmlspecialchars($value));
+                $parent->appendChild($newElement);
+            }
+        }
+
+        // Update or create elements
+        updateOrCreateElement($xml, $existingUser, 'Password', $password);
+        updateOrCreateElement($xml, $existingUser, 'Nom', $nom);
+        updateOrCreateElement($xml, $existingUser, 'Prenom', $prenom);
+        updateOrCreateElement($xml, $existingUser, 'Question_Secrete', $questionSecrete);
+        updateOrCreateElement($xml, $existingUser, 'Reponse_a_la_question_Secrete', $reponseSecrete);
     } else {
         // Create a new Utilisateur element
-        echo "L'utilisateur n'éxiste pas !";
+        echo "L'utilisateur n'existe pas !";
         die();
     }
 
@@ -36,33 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     echo "Inscription mise à jour réussie!";
 
-    header("location : index.html");
+    // Redirect to index.html
+    header("Location: index.html");
+    exit();
 } else {
     echo "Aucune donnée soumise!";
 }
-
-
-//si on a besoin plus tards.
-function makeNewUser($username,$password,$nom,$prenom,$questionSecrete,$reponseSecrete)
-{
-    $utilisateur = $xml->createElement('Utilisateur');
-
-        $userNameElement = $xml->createElement('UserName', htmlspecialchars($username));
-        $passwordElement = $xml->createElement('Password', htmlspecialchars($password));
-        $nomElement = $xml->createElement('Nom', htmlspecialchars($nom));
-        $prenomElement = $xml->createElement('Prenom', htmlspecialchars($prenom));
-        $questionSecreteElement = $xml->createElement('Question_Secrete', htmlspecialchars($questionSecrete));
-        $reponseSecreteElement = $xml->createElement('Reponse_a_la_question_Secrete', htmlspecialchars($reponseSecrete));
-
-        // Append the child elements to the Utilisateur element
-        $utilisateur->appendChild($userNameElement);
-        $utilisateur->appendChild($passwordElement);
-        $utilisateur->appendChild($nomElement);
-        $utilisateur->appendChild($prenomElement);
-        $utilisateur->appendChild($questionSecreteElement);
-        $utilisateur->appendChild($reponseSecreteElement);
-
-        // Append the new Utilisateur element to the root element
-        $xml->documentElement->appendChild($utilisateur);
-}
 ?>
+
