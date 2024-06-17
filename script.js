@@ -227,24 +227,6 @@ function loadXMLPartenaires() {
                 console.error(error);
             });
     }
-<<<<<<< HEAD
-    const formLogin = new formHandler(getIdFromForm());
-    const buttonDeco = document.getElementById('btnDeco');
-    if (buttonDeco != null) {
-        buttonDeco.addEventListener('click', () => {
-            try {
-                var file;
-                // Create an instance of the FileSystemObject
-                file = new ActiveXObject('Scripting.FileSystemObject');
-
-                var f = file.GetFile('data/currentUser.txt');
-                f.Delete();
-
-                file = new File('', 'data/currentUser.txt', {
-                    type: 'text/plain',
-                });
-
-=======
 }
 
 function buttonConnection() {
@@ -284,15 +266,11 @@ function makeDeconnection() {
                     type: 'text/plain',
                 });
 
->>>>>>> 6d9f1ca345a692515d2cb88460a12ad58809c733
                 redirect('index.html');
             } catch {
                 alert('Problème de déconnexion');
             }
         });
-<<<<<<< HEAD
-    }
-=======
     } catch (error) {}
 }
 
@@ -302,7 +280,6 @@ window.addEventListener('load', () => {
     loadXMLPartenaires();
     makeDeconnection();
     buttonConnection();
->>>>>>> 6d9f1ca345a692515d2cb88460a12ad58809c733
 
     //chercher si l'tilisateur exist
     //on la trouvé (si pas trouvé erreur, sino redirigé)
@@ -310,13 +287,7 @@ window.addEventListener('load', () => {
 });
 
 function getConnectedUser() {
-    const text = fetch('data/currentUser.txt')
-        .then((res) => res.text())
-        .then((text) => {
-            console.log('text : ' + text);
-            return text;
-        });
-    return text;
+    return localStorage.name;
 }
 
 function findNom(userXML) {
@@ -334,8 +305,6 @@ function generateHeader() {
 
     const header = document.createElement('header');
     if (!window.location.pathname.includes('connexion.html')) {
-        console.log('generateHeader : ', generateHeader);
-
         const divNom = document.createElement('div');
         header.appendChild(divNom);
 
@@ -352,13 +321,11 @@ function generateHeader() {
         divPrenom.appendChild(labelPrenom);
 
         loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
-            getConnectedUser().then((username) => {
-                const labelPrenom = document.querySelector('#labelPrenom');
-                const labelNom = document.querySelector('#labelNom');
-                const userXML = findUser(xml, username);
-                labelPrenom.innerHTML = findPrenom(userXML);
-                labelNom.innerHTML = findNom(userXML);
-            });
+            const labelPrenom = document.querySelector('#labelPrenom');
+            const labelNom = document.querySelector('#labelNom');
+            const userXML = findUser(xml, getConnectedUser());
+            labelPrenom.innerHTML = findPrenom(userXML);
+            labelNom.innerHTML = findNom(userXML);
         });
 
         const divDeconnexion = document.createElement('div');
@@ -368,6 +335,15 @@ function generateHeader() {
         boutonDeconnexion.id = 'btnDeco';
         boutonDeconnexion.innerHTML = 'Déconnexion';
         divDeconnexion.appendChild(boutonDeconnexion);
+
+        const divProfil = document.createElement('div');
+        header.appendChild(divProfil);
+
+        const boutonProfil = document.createElement('button');
+        boutonProfil.id = 'btnProfil';
+        boutonProfil.innerHTML = 'Profil';
+        divProfil.appendChild(boutonProfil);
     }
+
     body.innerHTML = header.outerHTML + body.innerHTML;
 }
