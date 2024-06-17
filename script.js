@@ -277,6 +277,26 @@ function generateHeader() {
     }
 }
 
+function createTagWithParent(name_tag, tag_parent, class_tag, content) {
+    const tag = document.createElement(name_tag);
+    tag.className = class_tag;
+    if (tag_parent) {
+        tag_parent.appendChild(tag);
+    } else {
+        console.log('else', tag_parent);
+    }
+    tag.textContent = content;
+    return tag;
+}
+function createTagFromXML(name_tag, tag_parent, class_tag, selector) {
+    return createTagWithParent(
+        name_tag,
+        tag_parent,
+        class_tag,
+        xml.querySelector(selector).textContent
+    );
+}
+
 function generateFooter() {
     const body = document.querySelector('body');
 
