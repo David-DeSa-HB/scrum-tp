@@ -139,27 +139,15 @@ function loadPartenaires(xml) {
     const partenaires = xml.querySelectorAll('Partenaire');
 
     partenaires.forEach((partenaire) => {
-        var element = document.createElement('article');
+        var article = createTagWithParent('article', list);
 
-        var title = document.createElement('h3');
-        var description = document.createElement('p');
-        var logo = document.createElement('img');
-        var button = document.createElement('button');
-
-        title.textContent = partenaire.querySelector('Nom').textContent;
-        description.textContent =
-            partenaire.querySelector('Preview').textContent;
-
+        var title = createTagFromXML('h3', article, partenaire, 'Nom');
+        var logo = createTagWithParent('img', article);
         logo.src = partenaire.querySelector('Logo').textContent;
-
-        button.textContent = 'Afficher la suite';
-
-        element.append(title);
-        element.append(logo);
-        element.append(description);
-        element.append(button);
-
-        list.append(element);
+        var description = createTagFromXML('p', article, partenaire, 'Preview');
+        var button = createTagWithParent('button', article, {
+            content: 'Afficher la suite',
+        });
     });
 }
 
@@ -239,7 +227,7 @@ function generateHeader() {
     if (!window.location.pathname.includes('connexion.html')) {
         loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
             const body = document.querySelector('body');
-            const header = createTagWithParent('header', body);
+            const header = createTagWithParent('header');
 
             const username = getConnectedUser();
             const userXML = findUser(xml, username);
@@ -276,9 +264,8 @@ function createTagWithParent(
     tag_parent,
     { class_tag, content, id } = {}
 ) {
-    // class_tag =
     const tag = document.createElement(name_tag);
-    // tag.className = class_tag;
+    tag.className = class_tag;
     if (tag_parent) {
         tag_parent.appendChild(tag);
     }
@@ -288,13 +275,18 @@ function createTagWithParent(
     tag.textContent = content;
     return tag;
 }
-function createTagFromXML(name_tag, tag_parent, class_tag, selector) {
-    return createTagWithParent(
-        name_tag,
-        tag_parent,
-        class_tag,
-        xml.querySelector(selector).textContent
-    );
+function createTagFromXML(
+    name_tag,
+    tag_parent,
+    xml,
+    selector,
+    { class_tag, id } = {}
+) {
+    return createTagWithParent(name_tag, tag_parent, {
+        class_tag: class_tag,
+        content: xml.querySelector(selector).textContent,
+        id: id,
+    });
 }
 
 function generateFooter() {
