@@ -35,10 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $xml->save($xmlFile);
 
     echo "Inscription mise à jour réussie!";
+
+    header("location : index.html");
 } else {
     echo "Aucune donnée soumise!";
 }
 
+
+//si on a besoin plus tards.
 function makeNewUser($username,$password,$nom,$prenom,$questionSecrete,$reponseSecrete)
 {
     $utilisateur = $xml->createElement('Utilisateur');
