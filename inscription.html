@@ -1,68 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
-    <script src="script.js"></script>
-</head>
-<body>
-    <form id="formInscription" method="post" action="XMLHandler.php">
-        <div class="">
-          <label for="username">Username</label>
-          <input
-            required
-            type="text"
-            name="UserName"
-            id="UserName"
-          />
-        </div>
-        <div class="">
-          <label for="password">Password</label>
-          <input
-            required
-            type="password"
-            name="Password"
-            id="Password"
-          />
-        </div>
-        <div class="">
-          <label for="Nom">Nom</label>
-          <input
-          required
-            type="text"
-            name="Nom"
-            id="Nom"
-          />
-        </div>
-        <div class="">
-            <label for="Prenom">Prenom</label>
-            <input
-            required
-              type="text"
-              name="Prenom"
-              id="Prenom"
-            />
-          </div>
-          <div class="">
-            <label for="Question_Secrete">Question Secrete</label>
-            <input
-            required
-              type="text"
-              name="Question_secrete"
-              id="Question_secrete"
-            />
-          </div>
-          <div class="">
-            <label for="Reponse_a_la_question_secrete">Reponse a la question secrete</label>
-            <input
-            required
-              type="text"
-              name="Reponse_a_la_question_secrete"
-              id="Reponse_a_la_question_secrete"
-            />
-          </div>
-        <button type="submit" id="submitInscription">S'inscrire</button>
-      </form>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Inscription</title>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <form id="formInscription" method="post" action="XMLHandler.php">
+            <div class="">
+                <label for="username">Username</label>
+                <input required type="text" name="UserName" id="UserName" />
+            </div>
+            <div class="">
+                <label for="password">Password</label>
+                <input required type="password" name="Password" id="Password" />
+            </div>
+            <div class="">
+                <label for="Nom">Nom</label>
+                <input required type="text" name="Nom" id="Nom" />
+            </div>
+            <div class="">
+                <label for="Prenom">Prenom</label>
+                <input required type="text" name="Prenom" id="Prenom" />
+            </div>
+            <div class="">
+                <label for="Question_Secrete">Question Secrete</label>
+                <input
+                    required
+                    type="text"
+                    name="Question_secrete"
+                    id="Question_secrete" />
+            </div>
+            <div class="">
+                <label for="Reponse_a_la_question_secrete">
+                    Reponse a la question secrete
+                </label>
+                <input
+                    required
+                    type="text"
+                    name="Reponse_a_la_question_secrete"
+                    id="Reponse_a_la_question_secrete" />
+            </div>
+            <button type="submit" id="submitInscription">S'inscrire</button>
+        </form>
+    </body>
 </html>
