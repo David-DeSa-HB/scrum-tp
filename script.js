@@ -159,13 +159,9 @@ function loadPartenaires(xml) {
 }
 
 function showPartenaire(xml) {
-    const section = document.querySelector('#partenaire');
-    const like = document.querySelector('#like');
-    const dislike = document.querySelector('#dislike');
-    const comSection = document.querySelector('#commentaires');
+    const sectionPartenaire = document.querySelector('#partenaire');
 
     const partenaires = xml.querySelectorAll('Partenaire');
-
     let partenaire;
 
     partenaires.forEach((p) => {
@@ -177,46 +173,55 @@ function showPartenaire(xml) {
         }
     });
 
-    var element = document.createElement('article');
+    const article = createTagWithParent('article', sectionPartenaire);
 
-    var title = document.createElement('h1');
-    var description = document.createElement('p');
-    var logo = document.createElement('img');
-
-    title.textContent = partenaire.querySelector('Nom').textContent;
-    description.textContent =
-        partenaire.querySelector('Description').textContent;
-
+    const title = createTagFromXML('h1', article, partenaire, 'Nom');
+    const logo = createTagWithParent('img', article);
     logo.src = partenaire.querySelector('Logo').textContent;
+    const description = createTagFromXML(
+        'p',
+        article,
+        partenaire,
+        'Description'
+    );
 
-    like.textContent = 'Like : ' + partenaire.querySelectorAll('Like').length;
-    dislike.textContent =
-        'Dislike : ' + partenaire.querySelectorAll('Dislike').length;
+    const sectionPartenaireForm = document.querySelector('#partenaireForm');
+    const like = createTagWithParent('p', sectionPartenaireForm, {
+        content: 'Like : ' + partenaire.querySelectorAll('Like').length,
+    });
+    const btnLike = createTagWithParent('button', sectionPartenaireForm, {
+        content: 'Like',
+    });
+    const dislike = createTagWithParent('p', sectionPartenaireForm, {
+        content: 'Dislike : ' + partenaire.querySelectorAll('Dislike').length,
+    });
+    const btnDislike = createTagWithParent('button', sectionPartenaireForm, {
+        content: 'Dislike',
+    });
+    const addCom = createTagWithParent('h2', sectionPartenaireForm, {
+        content: 'Ajouter un Commentaire:',
+    });
+    const comForm = createTagWithParent('form', sectionPartenaireForm);
 
-    element.append(title);
-    element.append(logo);
-    element.append(description);
-
-    section.append(element);
+    const comSection = document.querySelector('#commentaires');
 
     const commentaires = partenaire.querySelectorAll('Commentaire');
+    commentaires.forEach((commentaire) => {
+        const comArticle = createTagWithParent('article', comSection);
 
-    commentaires.forEach((c) => {
-        var element = document.createElement('article');
-
-        var title = document.createElement('h3');
-        var description = document.createElement('p');
-        var date = document.createElement('p');
-
-        title.textContent = c.querySelector('UserName').textContent;
-        description.textContent = c.querySelector('Texte').textContent;
-        date.textContent = c.querySelector('Date').textContent;
-
-        element.append(title);
-        element.append(description);
-        element.append(date);
-
-        comSection.append(element);
+        const title = createTagFromXML(
+            'h3',
+            comArticle,
+            commentaire,
+            'UserName'
+        );
+        const description = createTagFromXML(
+            'p',
+            comArticle,
+            commentaire,
+            'Texte'
+        );
+        const date = createTagFromXML('p', comArticle, commentaire, 'Date');
     });
 }
 
