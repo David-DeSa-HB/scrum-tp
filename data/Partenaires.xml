@@ -3,12 +3,24 @@
 <!DOCTYPE Partenaires
 [
     <!ELEMENT Partenaires (Partenaire*)>
-    <!ELEMENT Partenaire (Nom, Preview, Description, Logo)>
+    <!ELEMENT Partenaire (Nom, Preview, Description, Logo, Likes, Dislikes, Commentaires)>
 
         <!ELEMENT Nom (#PCDATA)>
         <!ELEMENT Preview (#PCDATA)>
         <!ELEMENT Description (#PCDATA)>
         <!ELEMENT Logo (#PCDATA)>
+
+        <!ELEMENT Likes (Like*)>
+        <!ELEMENT Like (#PCDATA)>
+        <!ELEMENT Dislikes (Dislike*)>
+        <!ELEMENT Dislike (#PCDATA)>
+
+        <!ELEMENT Commentaires (Commentaire*)>
+        <!ELEMENT Commentaire (UserName, Texte, Date)>
+
+            <!ELEMENT UserName (#PCDATA)>
+            <!ELEMENT Texte (#PCDATA)>
+            <!ELEMENT Date (#PCDATA)>
 ]>
 
 <Partenaires>
@@ -26,7 +38,20 @@
         Une rémunération qui s’adapte à vous. Recevez une commission fixe ou un
         pourcentage en fonction du nombre de devis effectués ou de contrats souscrits.</Description>
         <Logo>./img/OCAR.png</Logo>
+        <Likes>
+            <Like>PasBenjamin</Like>
+            <Like>JeanMichel</Like>
+        </Likes>
+        <Dislikes></Dislikes>
+        <Commentaires>
+            <Commentaire>
+                <UserName>PasBenjamin</UserName>
+                <Texte>Vaut mieux pas</Texte>
+                <Date>14/06/2024</Date>
+            </Commentaire>
+        </Commentaires>
     </Partenaire>
+
     <Partenaire>
         <Nom>ASSURISK</Nom>
         <Preview>Être bien couvert, votre objectif et notre mission.</Preview>
@@ -43,6 +68,12 @@ Vous bénéficiez aussi du large réseau de garages partenaires, d’expert, et 
 de notre Groupe. Une prise en charge 24h/24, 7 jours/7 qui s’appuie sur la performance
 du 1er groupe mondial d’assurance.</Description>
         <Logo>./img/ASSURISK.png</Logo>
+        <Likes></Likes>
+        <Dislikes>            
+            <Dislike>PasBenjamin</Dislike>
+            <Dislike>JeanMichel</Dislike>
+        </Dislikes>
+        <Commentaires></Commentaires>
     </Partenaire>
     <Partenaire>
         <Nom>LES + MUTUALISTES</Nom>
@@ -58,6 +89,9 @@ Notre mission est double :
 - Sociale : nous garantissons la fiabilité des données sociales ;
 - Économique : nous apportons une contribution aux activités économiques.</Description>
         <Logo>./img/les-mutualistes.png</Logo>
+        <Likes></Likes>
+        <Dislikes></Dislikes>
+        <Commentaires></Commentaires>
     </Partenaire>
     <Partenaire>
         <Nom>ALLIA</Nom>
@@ -66,5 +100,8 @@ Notre mission est double :
 Son président est élu pour 3 ans par ses pairs, chefs d'entreprises et présidents de tous
 les ALLIA de France.</Description>
         <Logo>./img/ALLIA.png</Logo>
+        <Likes></Likes>
+        <Dislikes></Dislikes>
+        <Commentaires></Commentaires>
     </Partenaire>
 </Partenaires>
