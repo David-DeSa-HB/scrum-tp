@@ -1,5 +1,5 @@
 window.addEventListener('load', () => {
-    console.log('local1 : ', localStorage.name);
+    console.log('local : ', localStorage.name);
     generateHeader();
     loadXMLPartenaires();
     makeDeconnection();
@@ -103,7 +103,6 @@ function redirect(url) {
 }
 
 function findUser(xml, username) {
-    console.log('test 2: ' + username);
     const allUsers = xml.querySelectorAll('Utilisateur');
     for (let index = 0; index < allUsers.length; index++) {
         const user = allUsers[index];
@@ -120,12 +119,7 @@ function findUser(xml, username) {
 
 function connectionIsCorrect(xml, username, password) {
     const user = findUser(xml, username);
-    console.log('user : ', user);
-    console.log('username : ', username);
-    console.log('password : ', password);
     if (user && user.querySelector('Password').textContent === password) {
-        console.log('true');
-
         return true;
     }
     return false;
@@ -133,7 +127,6 @@ function connectionIsCorrect(xml, username, password) {
 
 function connectUser(xml, username, password) {
     if (connectionIsCorrect(xml, username, password)) {
-        console.log('redirect');
         localStorage.name = username;
         redirect('index.html');
         return;
@@ -204,8 +197,6 @@ function buttonConnection() {
     try {
         const submitLogin = document.querySelector('#submitLogin');
         submitLogin.addEventListener('click', (event) => {
-            console.log('click');
-
             event.preventDefault();
             const userInput = getInputConnection();
 
@@ -254,8 +245,6 @@ function findPrenom(userXML) {
 
 function generateHeader() {
     if (!window.location.pathname.includes('connexion.html')) {
-        console.log('generateHeader : ', generateHeader);
-
         const body = document.querySelector('body');
 
         const header = document.createElement('header');
