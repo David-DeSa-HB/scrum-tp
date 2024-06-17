@@ -307,7 +307,8 @@ function findPrenom(userXML) {
 }
 
 function generateHeader() {
-    console.log('generateHeader : ', generateHeader);
+    if(!window.location.pathname.includes("connexion.html")){
+        console.log('generateHeader : ', generateHeader);
 
     const body = document.querySelector('body');
 
@@ -347,4 +348,6 @@ function generateHeader() {
     divDeconnexion.appendChild(boutonDeconnexion);
 
     body.innerHTML = header.outerHTML + body.innerHTML;
+    }
+    
 }
