@@ -295,3 +295,10 @@ function generateHeader() {
         body.innerHTML = header.outerHTML + body.innerHTML;
     }
 }
+
+function generateFooter() {
+    const body = document.querySelector('body');
+
+    const footer = document.createElement('footer');
+    body.appendChild(footer);
+}
