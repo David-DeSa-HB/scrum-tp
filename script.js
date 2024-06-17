@@ -121,55 +121,16 @@ function connectionIsCorrect(xml, username, password) {
     return false;
 }
 
-function writeFile(content) {
-    // Créer un Blob avec le contenu de la textarea
-    const blob = new Blob([content], { type: 'text/plain' });
-
-    // Créer une URL pour le Blob
-    const url = URL.createObjectURL(blob);
-
-    // Créer un élément de lien temporaire pour le téléchargement
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = './data/monFichier.txt'; // Nom par défaut du fichier à télécharger
-
-    // Ajouter le lien au document
-    document.body.appendChild(a);
-
-    // Simuler un clic sur le lien pour démarrer le téléchargement
-    a.click();
-
-    // Supprimer le lien temporaire du document
-    document.body.removeChild(a);
-
-    // Libérer l'URL Blob
-    URL.revokeObjectURL(url);
-}
-
 function connectUser(xml, username, password) {
     if (connectionIsCorrect(xml, username, password)) {
-        //redirect
         console.log('redirect');
-        // writeFile('test');
-        // const userJSON = JSON.stringify(username);
-        // fs.writeFile('data.json', userJSON, (error) => {
-        //     if (error) {
-        //         console.error(error);
-
-        //         throw error;
-        //     }
-
-        //     console.log('data.json written correctly');
-        // });
-        // console.log('userJSON : ', userJSON);
         localStorage.name = username;
         redirect('index.html');
         return;
     }
-    //error
-    console.log('error');
-    window.location.reload();
-    // redirect(window.location.href);
+    const formLogin = document.querySelector('#formLogin');
+    formLogin.reset();
+    window.alert('Bad input for connection');
     return;
 }
 
@@ -251,20 +212,15 @@ function buttonConnection() {
 
 function makeDeconnection() {
     try {
-        const formLogin = new formHandler(getIdFromForm());
+        console.log('deco1');
+        // const formLogin = new formHandler(getIdFromForm());
+        console.log('deco2');
         const buttonDeco = document.getElementById('btnDeco');
+        console.log('deco3');
         buttonDeco.addEventListener('click', () => {
             try {
-                var file;
-                // Create an instance of the FileSystemObject
-                file = new ActiveXObject('Scripting.FileSystemObject');
-
-                var f = file.GetFile('data/currentUser.txt');
-                f.Delete();
-
-                file = new File('', 'data/currentUser.txt', {
-                    type: 'text/plain',
-                });
+                delete localStorage.name;
+                console.log('localStorage.name : ', localStorage.name);
 
                 redirect('index.html');
             } catch {
@@ -307,47 +263,46 @@ function findPrenom(userXML) {
 }
 
 function generateHeader() {
-    if(!window.location.pathname.includes("connexion.html")){
+    if (!window.location.pathname.includes('connexion.html')) {
         console.log('generateHeader : ', generateHeader);
 
-    const body = document.querySelector('body');
+        const body = document.querySelector('body');
 
-    const header = document.createElement('header');
+        const header = document.createElement('header');
 
-    const divNom = document.createElement('div');
-    header.appendChild(divNom);
+        const divNom = document.createElement('div');
+        header.appendChild(divNom);
 
-    const labelNom = document.createElement('label');
-    labelNom.id = 'labelNom';
-    divNom.appendChild(labelNom);
+        const labelNom = document.createElement('label');
+        labelNom.id = 'labelNom';
+        divNom.appendChild(labelNom);
 
-    const divPrenom = document.createElement('div');
-    header.appendChild(divPrenom);
+        const divPrenom = document.createElement('div');
+        header.appendChild(divPrenom);
 
-    const labelPrenom = document.createElement('label');
-    labelPrenom.id = 'labelPrenom';
+        const labelPrenom = document.createElement('label');
+        labelPrenom.id = 'labelPrenom';
 
-    divPrenom.appendChild(labelPrenom);
+        divPrenom.appendChild(labelPrenom);
 
-    loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
-        getConnectedUser().then((username) => {
-            const labelPrenom = document.querySelector('#labelPrenom');
-            const labelNom = document.querySelector('#labelNom');
-            const userXML = findUser(xml, username);
-            labelPrenom.innerHTML = findPrenom(userXML);
-            labelNom.innerHTML = findNom(userXML);
+        loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
+            getConnectedUser().then((username) => {
+                const labelPrenom = document.querySelector('#labelPrenom');
+                const labelNom = document.querySelector('#labelNom');
+                const userXML = findUser(xml, username);
+                labelPrenom.innerHTML = findPrenom(userXML);
+                labelNom.innerHTML = findNom(userXML);
+            });
         });
-    });
 
-    const divDeconnexion = document.createElement('div');
-    header.appendChild(divDeconnexion);
+        const divDeconnexion = document.createElement('div');
+        header.appendChild(divDeconnexion);
 
-    const boutonDeconnexion = document.createElement('button');
-    boutonDeconnexion.id = 'btnDeco';
-    boutonDeconnexion.innerHTML = 'Déconnexion';
-    divDeconnexion.appendChild(boutonDeconnexion);
+        const boutonDeconnexion = document.createElement('button');
+        boutonDeconnexion.id = 'btnDeco';
+        boutonDeconnexion.innerHTML = 'Déconnexion';
+        divDeconnexion.appendChild(boutonDeconnexion);
 
-    body.innerHTML = header.outerHTML + body.innerHTML;
+        body.innerHTML = header.outerHTML + body.innerHTML;
     }
-    
 }
