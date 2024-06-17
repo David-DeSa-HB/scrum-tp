@@ -379,10 +379,3 @@ function generateFooter() {
 
     const footer = createTagWithParent('footer', body);
 }
-
-function generictruc(xmlPRosmise, fonctin) {
-    xmlPRosmise.then(fonction);
-}
-//chercher si l'tilisateur exist
-//on la trouvé (si pas trouvé erreur, sino redirigé)
-//si ok, deuxieme page on récupére ce qu'on sait de lui et on repli les value des fields. il faudra vérifié si tout les champ son rempli (en bonus).
