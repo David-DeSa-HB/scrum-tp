@@ -146,14 +146,14 @@ function loadPartenaires(xml) {
         logo.src = partenaire.querySelector('Logo').textContent;
         var description = createTagFromXML('p', article, partenaire, 'Preview');
         var button = createTagWithParent('button', article, {
-            content: 'Afficher la suite',        button.addEventListener('click', () => {
+            content: 'Afficher la suite',
+        });
+        button.addEventListener('click', () => {
             localStorage.setItem(
                 'partenaire',
                 partenaire.querySelector('Nom').textContent
             );
             redirect('partenaire.html');
-        });
-
         });
     });
 }
@@ -237,6 +237,13 @@ function getIdFromForm() {
 }
 
 function loadXMLPartenaires() {
+    if (document.querySelector('#partenaire') != null) {
+        loadXMLDoc('./data/Partenaires.xml')
+            .then((xml) => showPartenaire(xml))
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
     if (document.querySelector('#partenaires') != null) {
         loadXMLDoc('./data/Partenaires.xml')
             .then((xml) => loadPartenaires(xml))
@@ -372,15 +379,6 @@ function generateFooter() {
 
     const footer = createTagWithParent('footer', body);
 }
-
-    if (document.querySelector('#partenaire') != null) {
-        loadXMLDoc('./data/Partenaires.xml')
-            .then((xml) => showPartenaire(xml))
-            .catch(function (error) {
-                console.error(error);
-            });
-    }
-});
 
 function generictruc(xmlPRosmise, fonctin) {
     xmlPRosmise.then(fonction);
