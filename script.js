@@ -280,6 +280,10 @@ window.addEventListener('load', () => {
     loadXMLPartenaires();
     makeDeconnection();
     buttonConnection();
+    const boutonProfil = document.getElementById('btnProfil');
+    boutonProfil.addEventListener('click', () => {
+        redirect('profil.php');
+    });
 
     //chercher si l'tilisateur exist
     //on la trouvé (si pas trouvé erreur, sino redirigé)
@@ -343,6 +347,7 @@ function generateHeader() {
         boutonProfil.id = 'btnProfil';
         boutonProfil.innerHTML = 'Profil';
         divProfil.appendChild(boutonProfil);
+        
     }
 
     body.innerHTML = header.outerHTML + body.innerHTML;
