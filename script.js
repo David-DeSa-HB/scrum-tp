@@ -1,4 +1,10 @@
-// import * as fs from 'fs';
+window.addEventListener('load', () => {
+    console.log('local : ', localStorage.name);
+    generateHeader();
+    loadXMLPartenaires();
+    makeDeconnection();
+    buttonConnection();
+});
 class formHandler {
     constructor(formId) {
         console.log(formId);
@@ -93,7 +99,6 @@ function redirect(url) {
 }
 
 function findUser(xml, username) {
-    console.log('test 2: ' + username);
     const allUsers = xml.querySelectorAll('Utilisateur');
     for (let index = 0; index < allUsers.length; index++) {
         const user = allUsers[index];
@@ -110,66 +115,21 @@ function findUser(xml, username) {
 
 function connectionIsCorrect(xml, username, password) {
     const user = findUser(xml, username);
-    console.log('user : ', user);
-    console.log('username : ', username);
-    console.log('password : ', password);
     if (user && user.querySelector('Password').textContent === password) {
-        console.log('true');
-
         return true;
     }
     return false;
 }
 
-function writeFile(content) {
-    // Créer un Blob avec le contenu de la textarea
-    const blob = new Blob([content], { type: 'text/plain' });
-
-    // Créer une URL pour le Blob
-    const url = URL.createObjectURL(blob);
-
-    // Créer un élément de lien temporaire pour le téléchargement
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = './data/monFichier.txt'; // Nom par défaut du fichier à télécharger
-
-    // Ajouter le lien au document
-    document.body.appendChild(a);
-
-    // Simuler un clic sur le lien pour démarrer le téléchargement
-    a.click();
-
-    // Supprimer le lien temporaire du document
-    document.body.removeChild(a);
-
-    // Libérer l'URL Blob
-    URL.revokeObjectURL(url);
-}
-
 function connectUser(xml, username, password) {
     if (connectionIsCorrect(xml, username, password)) {
-        //redirect
-        console.log('redirect');
-        // writeFile('test');
-        // const userJSON = JSON.stringify(username);
-        // fs.writeFile('data.json', userJSON, (error) => {
-        //     if (error) {
-        //         console.error(error);
-
-        //         throw error;
-        //     }
-
-        //     console.log('data.json written correctly');
-        // });
-        // console.log('userJSON : ', userJSON);
         localStorage.name = username;
         redirect('index.html');
         return;
     }
-    //error
-    console.log('error');
-    window.location.reload();
-    // redirect(window.location.href);
+    const formLogin = document.querySelector('#formLogin');
+    formLogin.reset();
+    window.alert('Bad input for connection');
     return;
 }
 
@@ -233,11 +193,8 @@ function buttonConnection() {
     try {
         const submitLogin = document.querySelector('#submitLogin');
         submitLogin.addEventListener('click', (event) => {
-            console.log('click');
-
             event.preventDefault();
             const userInput = getInputConnection();
-
             loadXMLDoc('./data/Utilisateurs.xml')
                 .then((xml) =>
                     connectUser(xml, userInput.username, userInput.password)
@@ -251,22 +208,12 @@ function buttonConnection() {
 
 function makeDeconnection() {
     try {
-        const formLogin = new formHandler(getIdFromForm());
         const buttonDeco = document.getElementById('btnDeco');
         buttonDeco.addEventListener('click', () => {
             try {
-                var file;
-                // Create an instance of the FileSystemObject
-                file = new ActiveXObject('Scripting.FileSystemObject');
-
-                var f = file.GetFile('data/currentUser.txt');
-                f.Delete();
-
-                file = new File('', 'data/currentUser.txt', {
-                    type: 'text/plain',
-                });
-
+                delete localStorage.name;
                 redirect('index.html');
+                alert('Déconnexion réussie');
             } catch {
                 alert('Problème de déconnexion');
             }
@@ -305,10 +252,11 @@ function findPrenom(userXML) {
 }
 
 function generateHeader() {
-    const body = document.querySelector('body');
-
-    const header = document.createElement('header');
     if (!window.location.pathname.includes('connexion.html')) {
+        const body = document.querySelector('body');
+
+        const header = document.createElement('header');
+
         const divNom = document.createElement('div');
         header.appendChild(divNom);
 
@@ -325,9 +273,10 @@ function generateHeader() {
         divPrenom.appendChild(labelPrenom);
 
         loadXMLDoc('./data/Utilisateurs.xml').then((xml) => {
+            const username = getConnectedUser();
             const labelPrenom = document.querySelector('#labelPrenom');
             const labelNom = document.querySelector('#labelNom');
-            const userXML = findUser(xml, getConnectedUser());
+            const userXML = findUser(xml, username);
             labelPrenom.innerHTML = findPrenom(userXML);
             labelNom.innerHTML = findNom(userXML);
         });
@@ -340,15 +289,33 @@ function generateHeader() {
         boutonDeconnexion.innerHTML = 'Déconnexion';
         divDeconnexion.appendChild(boutonDeconnexion);
 
-        const divProfil = document.createElement('div');
-        header.appendChild(divProfil);
-
-        const boutonProfil = document.createElement('button');
-        boutonProfil.id = 'btnProfil';
-        boutonProfil.innerHTML = 'Profil';
-        divProfil.appendChild(boutonProfil);
-        
+        body.innerHTML = header.outerHTML + body.innerHTML;
     }
+}
 
-    body.innerHTML = header.outerHTML + body.innerHTML;
+function createTagWithParent(name_tag, tag_parent, class_tag, content) {
+    const tag = document.createElement(name_tag);
+    tag.className = class_tag;
+    if (tag_parent) {
+        tag_parent.appendChild(tag);
+    } else {
+        console.log('else', tag_parent);
+    }
+    tag.textContent = content;
+    return tag;
+}
+function createTagFromXML(name_tag, tag_parent, class_tag, selector) {
+    return createTagWithParent(
+        name_tag,
+        tag_parent,
+        class_tag,
+        xml.querySelector(selector).textContent
+    );
+}
+
+function generateFooter() {
+    const body = document.querySelector('body');
+
+    const footer = document.createElement('footer');
+    body.appendChild(footer);
 }
